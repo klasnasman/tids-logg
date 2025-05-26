@@ -19,16 +19,21 @@ const Dashboard: React.FC<Props> = ({ initialSession, accessToken, refreshToken 
   
   const $isSidebarOpen = useStore(isSidebarOpen);
 
-  useEffect(() => {
-    async function initializeAuth() {
-      if (!authStore.get().session && accessToken && refreshToken) {
-        await initAuth(accessToken, refreshToken);
-        const { session: updatedSession } = authStore.get();
-        setSession(updatedSession);
-      }
+useEffect(() => {
+  async function initializeAuth() {
+    if (!accessToken || !refreshToken) {
+      return;
     }
-    initializeAuth();
-  }, [accessToken, refreshToken]);
+
+    if (!authStore.get()?.session) {
+      await initAuth(accessToken, refreshToken);
+      const { session: updatedSession } = authStore.get();
+      setSession(updatedSession);
+    }
+  }
+
+  initializeAuth();
+}, [accessToken, refreshToken]);
 
   return (
     <div className="dashboard">
