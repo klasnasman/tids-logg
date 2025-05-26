@@ -146,7 +146,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                 {date.getDate()}
               </p>
               {entriesForDate.length > 0 && (
-                <ul>
+                <ul className="flow-xs">
                   {entriesForDate.map((entry) => {
                     const client = $clients.find((p) => p.id === entry.client_id);
                     return (
@@ -155,7 +155,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                           <span className="w-1 h-3 inline-block shrink-0" style={{ backgroundColor: client.color }} />
                         )}
                         {client?.name && entry.hours ? (
-                          <span className="flex w-full justify-between mt-1">
+                          <span className="repel" data-nowrap>
                             <p className="truncate max-w-[12ch]">{client.name}</p>
                             <p>{entry.hours}h</p>
                           </span>
@@ -184,7 +184,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
           )}
         </div>
 
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto flow-xs">
           {entriesForSelectedDate.length > 0 ? (
             entriesForSelectedDate
               .slice()
@@ -197,7 +197,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                 const client = $clients.find((p) => p.id === entry.client_id);
                 return (
                   <div key={entry.id} className="group flex flex-col hover:bg-hover transition-all cursor-pointer">
-                    <div className="flex items-end justify-between my-xs gap-base">
+                    <div className="flex items-end justify-between gap-base">
                       <span className="truncate flex items-center gap-base">
                         <p className="cursor-default">{client?.name ?? "Projekt"}</p>
                         <input

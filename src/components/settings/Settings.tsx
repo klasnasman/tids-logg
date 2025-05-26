@@ -52,7 +52,7 @@ export function Settings() {
           <p>Inställningar</p>
         </div>
 
-        <div className="flex flex-col gap-sm">
+        <div className="flex flex-col">
           {!$profile?.full_name ? (
             <div className="w-full mt-xs">
               <ProfileForm userId={$user.id}  />

@@ -3,6 +3,10 @@
     margin-block-start: var(--flow-space, 1rem);
   }
 
+  .flow-xs>*+* {
+    margin-block-start: 0.25rem;
+  }
+
   .flow-sm>*+* {
     margin-block-start: 0.5rem;
   }
