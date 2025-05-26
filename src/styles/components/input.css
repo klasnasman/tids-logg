@@ -1,0 +1,85 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Radio buttons custom styles */
+input[type='radio'] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  /* Remove most all native input styles */
+  appearance: none;
+  /* For iOS < 15 */
+  background-color: var(--color-global-background);
+  /* Not removed via appearance */
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  cursor: pointer;
+
+  display: grid;
+  place-content: center;
+}
+
+input[type='radio']::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  /* Windows High Contrast Mode */
+  background-color: CanvasText;
+}
+
+input[type='radio']:checked::before {
+  transform: scale(1);
+}
+
+input[type='checkbox'] {
+  accent-color: rgba(255, 255, 255, 1);
+  width: 1rem;
+  height: 1rem;
+  -webkit-box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 1);
+  -moz-box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 1);
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 1);
+}
+
+input {
+  outline: none;
+  field-sizing: content;
+}
+
+input::placeholder {
+  font-size: var(--text-xs);
+}
+
+input:user-invalid~.input-invalid {
+  color: red;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}

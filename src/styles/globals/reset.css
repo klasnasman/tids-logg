@@ -1,0 +1,72 @@
+/* reset also included in tailwind import */
+
+html {
+  scrollbar-width: thin;
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+:where(a) {
+  text-underline-offset: 0.3ex;
+  cursor: pointer;
+}
+
+:where(button) {
+  cursor: pointer;
+}
+
+:where(input, select) {
+  font-size: var(--text-input, 1rem);
+  height: var(--spacing-input-height, 25px);
+  line-height: 1.1;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Disable smooth scrolling and animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  :after,
+  :before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-user-theme='dark'] input:-webkit-autofill,
+[data-user-theme='dark'] input:-webkit-autofill:hover,
+[data-user-theme='dark'] input:-webkit-autofill:focus,
+[data-user-theme='dark'] textarea:-webkit-autofill,
+[data-user-theme='dark'] textarea:-webkit-autofill:hover,
+[data-user-theme='dark'] textarea:-webkit-autofill:focus,
+[data-user-theme='dark'] select:-webkit-autofill {
+  background-color: #030712 !important;
+  color: #fbf9fa !important;
+  -webkit-text-fill-color: #fbf9fa !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

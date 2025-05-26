@@ -1,0 +1,20 @@
+/*
+GALLERY:
+A responsive grid layout for displaying items in a gallery format.
+
+CUSTOM PROPERTIES AND CONFIGURATION
+--gap-base: Defines the space between grid items.
+
+--min-column-width (240px): The minimum width an item should have before wrapping.
+
+--max-column-flex (3fr): The maximum flexible size of each column.
+*/
+
+@layer utilities {
+  .gallery {
+    display: grid;
+    justify-items: center;
+    grid-gap: var(--gap-base);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 3fr));
+  }
+}

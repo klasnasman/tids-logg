@@ -1,0 +1,56 @@
+@layer components {
+  .flow>*+* {
+    margin-block-start: var(--flow-space, 1rem);
+  }
+
+  .flow-sm>*+* {
+    margin-block-start: 0.5rem;
+  }
+
+  .flow-lg>*+* {
+    margin-block-start: 2rem;
+  }
+
+  .link {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color var(--default-transition-duration);
+  }
+
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .dot-leaders {
+    text-align: end;
+    word-wrap: break-word;
+    letter-spacing: 2px;
+    height: 1em;
+    overflow: hidden;
+    color: var(--color-muted);
+  }
+
+  .dot-leaders:after {
+    content: '······················································································································';
+  }
+
+  .clients::-webkit-scrollbar,
+  .calendar-view::-webkit-scrollbar,
+  .time-entries::-webkit-scrollbar {
+    --size: 4px;
+    width: var(--size, 4px);
+    height: var(--size, 4px);
+  }
+
+  .clients::-webkit-scrollbar-track,
+  .calendar-view::-webkit-scrollbar-track,
+  .time-entries::-webkit-scrollbar-track {
+    background-color: var(--color-scrollbar-track);
+  }
+
+  .clients::-webkit-scrollbar-thumb,
+  .calendar-view::-webkit-scrollbar-thumb,
+  .time-entries::-webkit-scrollbar-thumb {
+    background-color: var(--color-scrollbar-thumb);
+  }
+}

@@ -1,0 +1,40 @@
+.reel {
+  --reel-item-width: max-content;
+  --reel-space: 0;
+  --scroll-bar-offset: 0;
+  --scroll-bar-size: 4px;
+  --scroll-bar-track-color: var(--color-scrollbar-track);
+  --scroll-bar-thumb-color: var(--color-scrollbar-thumb);
+  --reel-calculated-space: var(--reel-space);
+  display: flex;
+  margin-inline: auto;
+  max-width: 100%;
+  overflow-x: auto;
+  /* padding: 0 0 var(--scroll-bar-offset) 0 */
+  -webkit-overflow-scrolling: touch;
+}
+
+.reel[data-reel-padding] {
+  padding: var(--spacing-base);
+}
+
+.reel>* {
+  flex-basis: var(--reel-item-width, calc(33.333% - var(--reel-calculated-space)));
+  flex-shrink: 0
+}
+
+.reel>*+* {
+  margin-inline-start: var(--reel-calculated-space)
+}
+
+.reel::-webkit-scrollbar {
+  block-size: var(--scroll-bar-size)
+}
+
+.reel::-webkit-scrollbar-track {
+  background-color: var(--scroll-bar-track-color)
+}
+
+.reel::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-bar-thumb-color)
+}

@@ -1,0 +1,56 @@
+---
+import { AstroFont } from "astro-font";
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TIDS:LOGG" />
+  <!-- add og:image -->
+  <meta property="og:image" content="/favicon.png" />
+  <meta property="og:url" content={canonicalURL} />
+  <link rel="canonical" href={canonicalURL} />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="theme-color" content="#fbf9fa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#030712" media="(prefers-color-scheme: dark)" />
+  <meta name="format-detection" content="email=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="address=no" />
+  <meta name="robots" content="noindex" />
+  <script src="/src/assets/scripts/pageLoad.js"></script>
+  <AstroFont
+    config={[
+      {
+        name: "Brown Mono",
+        src: [
+          {
+            style: "normal",
+            weight: "100 900",
+            path: "/fonts/BrownMono-Regular.woff2",
+          },
+        ],
+        preload: false,
+        display: "swap",
+        fallback: "monospace",
+      },
+    ]}
+  />
+</head>

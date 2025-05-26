@@ -1,0 +1,150 @@
+@theme {
+  /* https://tailwindcss.com/docs/theme */
+
+  --default-transition-duration: 0.3s;
+
+  /* TYPOGRAPHY (font-base / font-bold) */
+  --font-base: 'Untitled Serif', sans-serif;
+  --font-mono: 'Brown Mono', 'Necto Mono', monospace;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+
+  /* TYPOGRAPHY - SIZE (text-logo) */
+  --text-xs: clamp(0.75rem, 0.7104rem + 0.1678vi, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8414rem + 0.1678vi, 1rem);
+  --text-md: clamp(1rem, 0.9664rem + 0.1678vi, 1.125rem);
+  --text-lg: clamp(1.0625rem, 0.9954rem + 0.3356vi, 1.3125rem);
+  --text-xl: clamp(1.1875rem, 1.1036rem + 0.4195vi, 1.5rem);
+
+  --text-h1: clamp(1.5625rem, 1.2773rem + 1.4262vi, 2.625rem);
+  /* H1: 25.785px → 42px */
+  --text-h2: clamp(1.4375rem, 1.2865rem + 0.755vi, 2rem);
+  /* H2: 23.4153px → 32px */
+  --text-h3: clamp(1.3125rem, 1.1951rem + 0.5872vi, 1.75rem);
+  /* H3: 21.3236px → 28px */
+  --text-h4: clamp(1.1875rem, 1.1036rem + 0.4195vi, 1.5rem);
+  /* H4: 19.2307px → 24px */
+
+  --text-base: var(--text-xs);
+  --text-input: var(--text-xs);
+
+  /* COLOR - UI (bg-global-background / text-muted) */
+  --color-global-text: var(--color-gray-950);
+  --color-global-background: var(--color-gray-50);
+  --color-logo: var(--color-blue-500);
+  --color-hover: var(--color-blue-100);
+  --color-border: var(--color-gray-400);
+  --color-muted: var(--color-gray-500);
+  --color-input-focus: var(--color-gray-200);
+  --color-scrollbar-track: var(--color-gray-600);
+  --color-scrollbar-thumb: var(--color-gray-400);
+  --color-danger: var(--color-red-500);
+  --color-danger-dark-text: var(--color-red-700);
+  --color-danger-dark-background: var(--color-red-100);
+
+  /* SPACING - FIXED (px-base / max-h-header) */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+
+
+  /* SPACING - FLUID */
+  --spacing-xxs-fluid: clamp(0.125rem, 0rem + 0.625vw, 0.25rem);
+  /* XXS: 2px → 4px */
+  --spacing-xs-fluid: clamp(0.1875rem, 0.1301rem + 0.2449vw, 0.375rem);
+  /* XS: 3px → 6px */
+  --spacing-sm-fluid: clamp(0.25rem, 0.1735rem + 0.3265vw, 0.5rem);
+  /* SM: 4px → 8px */
+  --spacing-md-fluid: clamp(0.375rem, 0.2602rem + 0.4898vw, 0.75rem);
+  /* MD: 6px → 12px */
+  --spacing-lg-fluid: clamp(0.5rem, 0.3469rem + 0.6531vw, 1rem);
+  /* LG: 8px → 16px */
+
+  /* SPACING - HEADINGS (max-w-h1) */
+  --spacing-h1: 40ch;
+  --spacing-h2: 45ch;
+  --spacing-h3: 45ch;
+  --spacing-h4: 45ch;
+
+  --spacing-base: var(--spacing-sm);
+  --spacing-input: var(--input-height);
+  --spacing-header: var(--header-height);
+  --spacing-input-height: 25px;
+  --spacing-modal-width: 520px;
+  --spacing-modal-width-sm: 300px;
+  --spacing-site-start: var(--header-height);
+
+  /* SPACING - GAP (gap-base) */
+  --gap-base: var(--spacing-sm);
+
+  /* SPACING - CONTAINER (@sm:site (container query) / max-w-site) */
+  --container-site: 100vw;
+
+  /* BREAKPOINT (sm:site (variables not supported)) */
+  --breakpoint-base: 767px;
+  --breakpoint-lg: 1025px;
+  --breakpoint-site: 1600px;
+
+  /* BOX SHADOW */
+  --shadow-base: 2px 2px 16px 0px rgba(0, 0, 0, 0.1);
+
+  /* Z-INDEX */
+  --z-index-modal: 50;
+
+  /* MISC */
+  --flow-space: 1rem;
+  --header-height: 50px;
+}
+
+@layer base {
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+    outline-color: var(--color-global-text);
+  }
+
+  html {
+    background-color: var(--color-global-background);
+    opacity: 0;
+  }
+
+  html.fade-in-loaded {
+    opacity: 1;
+    transition: opacity 0.6s ease-in-out;
+  }
+
+  body {
+    color: var(--color-global-text);
+    background: var(--color-global-background);
+    font-size: var(--text-base);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-regular);
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  [data-user-theme='dark'] {
+    --color-logo: var(--color-cyan-600);
+    --color-global-text: var(--color-gray-50);
+    --color-global-background: var(--color-gray-950);
+    --color-hover: var(--color-cyan-950);
+    --color-muted: var(--color-gray-400);
+    --color-border: var(--color-gray-600);
+    --color-input-focus: var(--color-gray-800);
+    --color-scrollbar-track: var(--color-gray-600);
+    --color-scrollbar-thumb: var(--color-gray-400);
+    --color-danger-dark-text: var(--color-red-100);
+    --color-danger-dark-background: var(--color-red-950);
+  }
+}

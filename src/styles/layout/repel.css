@@ -1,0 +1,47 @@
+/*
+REPEL:
+A little layout that pushes items away from each other where
+there is space in the viewport and stacks on small viewports
+
+CUSTOM PROPERTIES AND CONFIGURATION
+--gap-base: This defines the space between each item.
+
+--repel-vertical-alignment How items should align vertically.
+Can be any acceptable flexbox alignment value.
+*/
+@layer utilities {
+  .repel {
+    --repel-vertical-alignment: center;
+    --repel-gap: 0.5rem;
+    --direction: row;
+    display: flex;
+    flex-direction: var(--direction);
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: var(--repel-vertical-alignment);
+    gap: var(--repel-gap);
+    width: 100%;
+  }
+
+  .repel[data-nowrap] {
+    flex-wrap: nowrap;
+  }
+
+  .repel[data-reverse] {
+    --direction: row-reverse;
+  }
+
+  .repel[data-start] {
+    --repel-vertical-alignment: start;
+  }
+
+  .repel[data-end] {
+    --repel-vertical-alignment: end;
+  }
+
+  @media screen and (max-width: 767px) {
+    .repel[data-responsive] {
+      flex-direction: column;
+    }
+  }
+}

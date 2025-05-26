@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@import './globals/reset.css';
+@import './globals/theme.css';
+
+@import './utils/utils.css';
+
+@import './components/button.css';
+@import './components/dashboard.css';
+@import './components/input.css';
+
+@import './layout/cluster.css';
+@import './layout/gallery.css';
+@import './layout/grids.css';
+@import './layout/orphan.css';
+@import './layout/reel.css';
+@import './layout/repel.css';
+@import './layout/section.css';
+@import './layout/switcher.css';
+@import './layout/wrapper.css';
