@@ -12,12 +12,12 @@ export function Settings() {
   const $show = useStore(showWeekends);
   const $user = useStore(authStore).user;
   const $profile = useStore(profileStore);
+  const isOpen = useStore(isSettingsModalOpen);
 
   const [editingName, setEditingName] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">(() =>
     document.documentElement.getAttribute("data-user-theme") === "dark" ? "dark" : "light"
   );
-  const isOpen = useStore(isSettingsModalOpen);
   
   useEffect(() => {
     const storedWeekends = localStorage.getItem("showWeekends");

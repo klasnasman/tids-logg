@@ -137,11 +137,11 @@ export function isCurrentMonth(date: Date, currentYear: number, currentMonth: nu
 
 export function isWeekend(date: Date): boolean {
   const day = getDay(date);
-  return day === 0 || day === 6; // Sunday or Saturday
+  return day === 0 || day === 6;
 }
 
 export function isHoliday(date: Date): { isHoliday: boolean; name?: string } {
-  const holidays = swedishHolidays(date.getFullYear()); // ⬅️ CALL the default import
+  const holidays = swedishHolidays(date.getFullYear());
   const dateStr = formatDateString(date);
 
   const holiday = holidays.find((h) => formatDateString(new Date(h.date)) === dateStr);

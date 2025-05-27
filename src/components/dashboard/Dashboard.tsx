@@ -1,7 +1,8 @@
 import Calendar from "@components/calendar/CalendarView";
 import ClientView from "@components/calendar/ClientView";
 import TimeStatsView from "@components/calendar/TimeStatsView";
-import { authStore, initAuth } from "@lib/stores/auth/authStore";
+import { authStore, initAuth, setSession } from "@lib/stores/auth/authStore";
+import { selectedMonthAtom, setSelectedMonth } from "@lib/stores/calendarStore";
 import { isSidebarOpen } from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
 import type { Session } from "@supabase/supabase-js";
@@ -15,31 +16,34 @@ type Props = {
 
 const Dashboard: React.FC<Props> = ({ initialSession, accessToken, refreshToken }) => {
 
+  const $auth = useStore(authStore);
+  const session = $auth.session;
+  const selectedMonth = useStore(selectedMonthAtom);
   const $isSidebarOpen = useStore(isSidebarOpen);
-
-  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
-  const [session, setSession] = React.useState<Session | null>(initialSession);
   
-useEffect(() => {
-  async function initializeAuth() {
-    if (!accessToken || !refreshToken) {
-      return;
+  useEffect(() => {
+    async function initializeAuth() {
+      if (!accessToken || !refreshToken) {
+        setSession(initialSession);
+        return;
+      }
+
+      if (!authStore.get().session) {
+        await initAuth(accessToken, refreshToken);
+      }
     }
 
-    if (!authStore.get()?.session) {
-      await initAuth(accessToken, refreshToken);
-      const { session: updatedSession } = authStore.get();
-      setSession(updatedSession);
-    }
-  }
-
-  initializeAuth();
-}, [accessToken, refreshToken]);
+    initializeAuth();
+  }, [accessToken, refreshToken, initialSession]);
 
   return (
     <div className="dashboard">
       <div className="dashboard-calendar">
-        <Calendar initialSession={session} selectedMonth={selectedMonth} onMonthChange={setSelectedMonth} />
+        <Calendar
+          initialSession={session}
+          selectedMonth={selectedMonth}
+          onMonthChange={setSelectedMonth}
+        />
       </div>
       <div className={`dashboard-sidebar ${$isSidebarOpen ? "open" : "closed"}`}>
         <TimeStatsView initialSession={session} selectedMonth={selectedMonth} />

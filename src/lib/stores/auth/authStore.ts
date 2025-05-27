@@ -68,3 +68,12 @@ export async function initAuth(accessToken?: string, refreshToken?: string) {
     });
   }
 }
+
+export function setSession(session: Session | null) {
+  const current = authStore.get();
+  authStore.set({ ...current, session });
+}
+
+export function getSession() {
+  return authStore.get().session;
+}

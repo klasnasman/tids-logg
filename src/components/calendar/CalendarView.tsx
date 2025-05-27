@@ -125,7 +125,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
             return (
               <div
                 key={"week-" + index}
-                className={`grid justify-center text-[10px] leading-none ${isCurrentWeek ? "text-blue-500" : "text-muted"}`}
+                className={`grid justify-center text-xxs leading-none ${isCurrentWeek ? "text-blue-500" : "text-muted"}`}
                 style={{ writingMode: "sideways-lr" }}>
                 {item}
               </div>
@@ -143,7 +143,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
               key={dateStr}
               onClick={() => handleDateClick(date)}
               className="calendar-card / border p-xs cursor-pointer transition-all hover:bg-hover hover:shadow-sm">
-              <p className={`w-full text-left pb-xs ${buttonTextClass}`} title={holidayTitle ?? ""}>
+              <p className={`w-full text-left pb-xs text-xxs ${buttonTextClass}`} title={holidayTitle ?? ""}>
                 {date.getDate()}
               </p>
               {entriesForDate.length > 0 && (

@@ -15,6 +15,7 @@
   --font-weight-extra-bold: 800;
 
   /* TYPOGRAPHY - SIZE (text-logo) */
+  --text-xxs: 10px;
   --text-xs: clamp(0.75rem, 0.7104rem + 0.1678vi, 0.875rem);
   --text-sm: clamp(0.875rem, 0.8414rem + 0.1678vi, 1rem);
   --text-md: clamp(1rem, 0.9664rem + 0.1678vi, 1.125rem);

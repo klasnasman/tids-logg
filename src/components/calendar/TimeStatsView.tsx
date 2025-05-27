@@ -9,7 +9,7 @@ type TimeStatsProps = {
 };
 
 const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) => {
-  const { $stats: timeStats, $loading, $authError, $monthEntries } = useTimeStats(initialSession, selectedMonth);
+  const { $stats: timeStats, $monthEntries } = useTimeStats(initialSession, selectedMonth);
 
   const handleExport = () => {
     const exportData = $monthEntries.map((entry) => ({
