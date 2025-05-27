@@ -199,11 +199,11 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                 return (
                   <div key={entry.id} className="group flex flex-col hover:bg-hover transition-all cursor-pointer">
                     <div className="flex items-end justify-between gap-base">
-                      <span className="truncate flex items-center gap-base">
+                      <span className="truncate w-full flex items-center gap-base">
                         <p className="cursor-default">{client?.name ?? "Projekt"}</p>
                         <input
                           type="number"
-                          className="border-b border-dashed px-xs truncate transition-all hover:bg-hover focus:bg-input-focus"
+                          className="max-w-[3ch] border-b border-dashed px-xs transition-all hover:bg-hover focus:bg-input-focus"
                           value={editingHours[entry.id] ?? entry.hours.toString()}
                           min="0.5"
                           step="0.5"
@@ -212,7 +212,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                         />
                         <input
                           type="text"
-                          className="text-muted border-b border-dashed px-xs truncate transition-all hover:bg-hover focus:bg-input-focus"
+                          className="text-muted border-b w-full min-w-0 border-dashed px-xs truncate transition-all hover:bg-hover focus:bg-input-focus"
                           value={editingDescriptions[entry.id] ?? entry.description ?? ""}
                           placeholder="Beskrivning"
                           onFocus={() => setEditingEntryId(entry.id)}
