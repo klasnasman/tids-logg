@@ -1,8 +1,10 @@
-import React from "react";
 import Delete from "@assets/icons/delete";
-import type { Session } from "@supabase/supabase-js";
-import { useClient } from "@hooks/useClient";
 import { AnimateModal } from "@components/misc/AnimateModal";
+import { useClient } from "@hooks/useClient";
+import { closeClientModal, isClientModalOpen, openClientModal } from "@lib/stores/UIStore";
+import { useStore } from "@nanostores/react";
+import type { Session } from "@supabase/supabase-js";
+import React from "react";
 
 type ClientListProps = {
   initialSession: Session | null;
@@ -12,9 +14,7 @@ type ClientListProps = {
 const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }) => {
   const {
     user,
-    authError,
     $clients,
-    loading,
     newClientName,
     setNewClientName,
     newClientDescription,
@@ -22,9 +22,6 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
     newClientColor,
     setNewClientColor,
     editingNames,
-    modalOpen,
-    openModal,
-    closeModal,
     handleCreateClient,
     handleDeleteClient,
     handleNameInputChange,
@@ -33,6 +30,8 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
     handleColorChange,
     handleColorPickerClose,
   } = useClient({ initialSession, selectedMonth });
+  
+  const isOpen = useStore(isClientModalOpen);
 
   return (
     <section className="clients / h-1/2 px-base pt-base border-t border-global-text overflow-y-auto">
@@ -72,13 +71,17 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
         </div>
         <div className="pt-sm pb-sm">
           {user?.id ? (
-            <button onClick={openModal} aria-controls="new-client-form" className="button w-full" data-variant="white">
+            <button
+              onClick={openClientModal}
+              aria-controls="new-client-form"
+              className="button w-full"
+              data-variant="white">
               Ny kund
             </button>
           ) : null}
         </div>
       </div>
-      <AnimateModal isOpen={modalOpen} onClose={closeModal} modalClassName="flow">
+      <AnimateModal isOpen={isOpen} onClose={closeClientModal} modalClassName="flow">
         <form
           id="new-project-form"
           onSubmit={(e) => {
@@ -118,7 +121,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
                 rows={3}
               />
               <div className="repel mt-lg">
-                <button type="button" onClick={closeModal} className="button" data-variant="white">
+                <button type="button" onClick={closeClientModal} className="button" data-variant="white">
                   Stäng
                 </button>
                 <button className="button" data-variant="white" type="submit" disabled={!user?.id}>

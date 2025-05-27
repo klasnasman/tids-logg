@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { authStore } from "@lib/stores/auth/authStore";
-import { profileStore, type Profile } from "@lib/stores/auth/profileStore";
-import { ProfileForm } from "@components/forms/ProfileForm";
-import { useStore } from "@nanostores/react";
-import { Settings } from "@components/settings/Settings";
-import { isSidebarOpen, toggleSidebar } from "@lib/stores/calendarUIStore";
-import SidebarOpen from "@assets/icons/sidebarOpen";
 import SidebarClose from "@assets/icons/sidebarClose";
+import SidebarOpen from "@assets/icons/sidebarOpen";
+import { Settings } from "@components/settings/Settings";
+import { authStore } from "@lib/stores/auth/authStore";
+import { isSidebarOpen, toggleSidebar } from "@lib/stores/UIStore";
+import { useStore } from "@nanostores/react";
 
 export default function Header() {
+  
   const user = useStore(authStore).user;
   const $isSidebarOpen = useStore(isSidebarOpen);
 

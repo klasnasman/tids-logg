@@ -1,23 +1,25 @@
-import React from "react";
 import Delete from "@assets/icons/delete";
+import { AnimateModal } from "@components/misc/AnimateModal";
 import { useCalendar } from "@hooks/useCalendar";
+import { closeCalendarModal, isCalendarModalOpen, showWeekends } from "@lib/stores/UIStore";
 import {
   DAYS_OF_WEEK,
-  formatSwedishDate,
-  getCalendarDays,
-  getMonthName,
-  isToday,
-  getNextMonth,
-  getPrevMonth,
-  getNextYear,
-  getPrevYear,
-  isHoliday,
   formatDateString,
-} from "@lib/utils/calendar";
-import type { Session } from "@supabase/supabase-js";
-import { AnimateModal } from "@components/misc/AnimateModal";
-import { showWeekends } from "@lib/stores/calendarUIStore";
+  formatSwedishDate,
+  getCalendarWithWeeks,
+  getDayClass,
+  getHolidayInfo,
+  getMonthName,
+  getNextMonth,
+  getNextYear,
+  getPrevMonth,
+  getPrevYear,
+  getVisibleCalendarDays,
+  getWeekNumber,
+} from "@lib/utils/calendarUtils";
 import { useStore } from "@nanostores/react";
+import type { Session } from "@supabase/supabase-js";
+import React from "react";
 
 interface CalendarProps {
   initialSession?: Session | null;
@@ -37,8 +39,6 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
     holidayName,
     currentYear,
     currentMonth,
-    modalOpen,
-    closeModal,
     handleDateClick,
     handleTodayClick,
     handleFormSubmit,
@@ -55,19 +55,20 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
   } = useCalendar({ initialSession, selectedMonth, onMonthChange });
 
   const $showWeekends = useStore(showWeekends);
-  const calendarDays = getCalendarDays(currentYear, currentMonth);
-  const filteredCalendarDays = calendarDays.filter(
-    (date) => $showWeekends || (date.getDay() !== 0 && date.getDay() !== 6)
-  );
+  const isOpen = useStore(isCalendarModalOpen);
+
+  const filteredCalendarDays = getVisibleCalendarDays(currentYear, currentMonth, $showWeekends);
+  const calendarWithWeeks = getCalendarWithWeeks(filteredCalendarDays, $showWeekends);
   const visibleDays = $showWeekends ? DAYS_OF_WEEK : DAYS_OF_WEEK.slice(0, 5);
   const [editingEntryId, setEditingEntryId] = React.useState<string | null>(null);
   const formattedDate = formatSwedishDate(selectedDate);
   const [day, month, year] = formattedDate.split(" ");
+  const currentWeekNumber = getWeekNumber(new Date());
 
   return (
     <section className="calendar-view / h-full flex flex-col overflow-y-auto">
       <nav>
-        <div className="flex justify-center items-center mb-8 base:px-base px-0">
+        <div className="flex justify-center items-center mb-md base:px-base px-0">
           <div className="flex justify-between base:justify-center items-center border-b base:border-x border-global-text h-full reel w-full base:w-fit">
             <div className="border-r px-sm">
               <p className="uppercase">
@@ -108,41 +109,41 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
       </nav>
 
       <div
-        className={`grid px-base ${
-          $showWeekends
-            ? "grid-cols-7 gap-base [&>div:nth-child(6)]:text-muted [&>div:nth-child(7)]:text-muted"
-            : "grid-cols-5 gap-base"
+        className={`grid h-full px-base p-base gap-xs grid-rows-[min-content_repeat(5,auto)] ${
+          $showWeekends ? "grid-cols-[auto_repeat(7,minmax(0,1fr))]" : "grid-cols-[auto_repeat(5,minmax(0,1fr))]"
         }`}>
+        <div aria-hidden="true"></div>
         {visibleDays.map((day) => (
           <div key={day} className="text-center">
             {day}
           </div>
         ))}
-      </div>
-      <div className={`grid h-full p-base gap-base ${$showWeekends ? "grid-cols-7" : "grid-cols-5"}`}>
-        {filteredCalendarDays.map((date) => {
-          const dateStr = formatDateString(date);
-          const isSaturdayDate = date.getDay() === 6;
-          const isSundayDate = date.getDay() === 0;
-          const isTodayDate = isToday(date);
-          const { isHoliday: isHolidayDate, name: holidayDisplayName } = isHoliday(date);
-          const entriesForDate = groupAndSumEntriesByClient($monthEntries.filter((entry) => entry.date === dateStr));
 
-          let buttonTextClass = "text-global-text";
-          if (isTodayDate) {
-            buttonTextClass = "text-blue-500";
-          } else if (isHolidayDate) {
-            buttonTextClass = "text-danger";
-          } else if (isSaturdayDate || isSundayDate) {
-            buttonTextClass = "text-muted";
+        {calendarWithWeeks.map((item, index) => {
+          if (typeof item === "number") {
+            const isCurrentWeek = item === currentWeekNumber;
+            return (
+              <div
+                key={"week-" + index}
+                className={`grid justify-center text-[10px] leading-none ${isCurrentWeek ? "text-blue-500" : "text-muted"}`}
+                style={{ writingMode: "sideways-lr" }}>
+                {item}
+              </div>
+            );
           }
+
+          const date = item;
+          const dateStr = formatDateString(date);
+          const entriesForDate = groupAndSumEntriesByClient($monthEntries.filter((entry) => entry.date === dateStr));
+          const buttonTextClass = getDayClass(date, currentMonth);
+          const { name: holidayTitle } = getHolidayInfo(date);
 
           return (
             <div
               key={dateStr}
               onClick={() => handleDateClick(date)}
               className="calendar-card / border p-xs cursor-pointer transition-all hover:bg-hover hover:shadow-sm">
-              <p className={`w-full text-left ${buttonTextClass}`} title={holidayDisplayName ?? ""}>
+              <p className={`w-full text-left pb-xs ${buttonTextClass}`} title={holidayTitle ?? ""}>
                 {date.getDate()}
               </p>
               {entriesForDate.length > 0 && (
@@ -170,7 +171,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
         })}
       </div>
 
-      <AnimateModal isOpen={modalOpen} onClose={closeModal}>
+      <AnimateModal isOpen={isOpen} onClose={closeCalendarModal}>
         <div className="flex justify-start items-center w-full">
           <span className="flex gap-[1ch]">
             <p>{day}</p>
@@ -270,7 +271,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                 setEditingHours({});
                 setEditingDescriptions({});
                 setEditingEntryId(null);
-                closeModal();
+                closeCalendarModal();
               }}>
               Stäng
             </button>
@@ -284,7 +285,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                   await saveEntryEdit(editingEntryId, "hours");
                   await saveEntryEdit(editingEntryId, "description");
                   setEditingEntryId(null);
-                  closeModal();
+                  closeCalendarModal();
                 }}>
                 Spara
               </button>

@@ -1,4 +1,4 @@
-import { formatSwedishDate, MONTHS, parseDate } from "./calendar";
+import { formatSwedishDate, MONTHS, parseDate } from "./calendarUtils";
 
 type EntryExport = {
   client: string;
@@ -35,7 +35,6 @@ export function exportToCsv(data: EntryExport[], filename = "tidrapportering.csv
 
   csvParts.push(...rows);
 
-  // Organize monthly summaries
   const clientMonthSummary: Record<string, Record<string, number>> = {};
 
   for (const entry of data) {
@@ -50,7 +49,6 @@ export function exportToCsv(data: EntryExport[], filename = "tidrapportering.csv
     clientMonthSummary[monthLabel][entry.client] += entry.hours;
   }
 
-  // Calculate client totals for additional summary
   const clientTotals: Record<string, number> = {};
   let grandTotal = 0;
 
@@ -69,7 +67,7 @@ export function exportToCsv(data: EntryExport[], filename = "tidrapportering.csv
       .map(([client, hours]) => {
         return `"${client.replace(/"/g, '""')}",${hours.toFixed(1)}`;
       }),
-    "", // Empty line
+    "",
     `"TOTALT","${grandTotal.toFixed(1)}"`,
   ];
 

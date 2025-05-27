@@ -2,7 +2,7 @@ import { atom } from "nanostores";
 import type { Client, TimeEntry } from "../supabase";
 import { getTimeEntriesForDateRange } from "@lib/api/timeEntries";
 import { clientStore } from "./clientStore";
-import { formatDateString } from "@lib/utils/calendar";
+import { formatDateString } from "@lib/utils/calendarUtils";
 
 type ClientWithHours = Client & { hours: number; percentage?: number };
 
@@ -25,17 +25,23 @@ export const timeStatsStore = atom<TimeStatsState>({
 export const loading = atom<boolean>(true);
 export const authError = atom<string | null>(null);
 export const monthEntries = atom<TimeEntry[]>([]);
+export const allEntries = atom<TimeEntry[]>([]);
 
 function getDateRanges(selectedDate: Date) {
-  const now = new Date(selectedDate);
+  // Current real date/time for today/week calculation:
+  const now = new Date();
   now.setHours(0, 0, 0, 0);
 
-  const startOfToday = new Date(now);
-  startOfToday.setHours(0, 0, 0, 0);
+  // Selected month date for month/year ranges:
+  const monthDate = new Date(selectedDate);
+  monthDate.setHours(23, 59, 59, 999);
 
+  // Today range (based on actual today)
+  const startOfToday = new Date(now);
   const endOfToday = new Date(now);
   endOfToday.setHours(23, 59, 59, 999);
 
+  // Week range (based on actual today)
   const currentDay = now.getDay();
   const diff = currentDay === 0 ? 6 : currentDay - 1;
 
@@ -47,17 +53,25 @@ function getDateRanges(selectedDate: Date) {
   endOfWeek.setDate(startOfWeek.getDate() + 6);
   endOfWeek.setHours(23, 59, 59, 999);
 
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  // Month range (based on selected month)
+  const startOfMonth = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+  const endOfMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+  endOfMonth.setHours(23, 59, 59, 999);
 
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const endOfYear = new Date(now.getFullYear(), 11, 31);
+  // Clamp startOfWeek to not be before startOfMonth
+  const clampedStartOfWeek = startOfWeek < startOfMonth ? startOfMonth : startOfWeek;
+  // Clamp endOfWeek to not be after endOfMonth
+  const clampedEndOfWeek = endOfWeek > endOfMonth ? endOfMonth : endOfWeek;
+
+  // Year range (based on selected month)
+  const startOfYear = new Date(monthDate.getFullYear(), 0, 1);
+  const endOfYear = new Date(monthDate.getFullYear(), 11, 31);
 
   return {
     todayStart: formatDateString(startOfToday),
     todayEnd: formatDateString(endOfToday),
-    startOfWeek: formatDateString(startOfWeek),
-    endOfWeek: formatDateString(endOfWeek),
+    startOfWeek: formatDateString(clampedStartOfWeek),
+    endOfWeek: formatDateString(clampedEndOfWeek),
     startOfMonth: formatDateString(startOfMonth),
     endOfMonth: formatDateString(endOfMonth),
     startOfYear: formatDateString(startOfYear),
@@ -110,7 +124,7 @@ async function loadClientDistribution(userId: string, entries: TimeEntry[]) {
   const sortedClients = Object.values(clientMap)
     .filter((p) => p.hours > 0)
     .sort((a, b) => b.hours - a.hours);
-    
+
   return sortedClients.map((client) => ({
     ...client,
     percentage: totalHours > 0 ? (client.hours / totalHours) * 100 : 0,
@@ -137,6 +151,7 @@ export async function loadTimeStats(userId: string, selectedMonth: Date) {
     } = await fetchTimeEntries(userId, dateRanges);
 
     monthEntries.set(mEntries);
+    allEntries.set(yearEntries);
 
     const hoursByPeriod = calculateTotalHours({ todayEntries, weekEntries, monthEntries: mEntries, yearEntries });
 

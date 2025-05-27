@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import type { Session } from "@supabase/supabase-js";
 import Calendar from "@components/calendar/CalendarView";
-import TimeStatsView from "@components/calendar/TimeStatsView";
 import ClientView from "@components/calendar/ClientView";
+import TimeStatsView from "@components/calendar/TimeStatsView";
 import { authStore, initAuth } from "@lib/stores/auth/authStore";
+import { isSidebarOpen } from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
-import { isSidebarOpen } from "@lib/stores/calendarUIStore";
+import type { Session } from "@supabase/supabase-js";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   initialSession: Session | null;
@@ -14,11 +14,12 @@ type Props = {
 };
 
 const Dashboard: React.FC<Props> = ({ initialSession, accessToken, refreshToken }) => {
+
+  const $isSidebarOpen = useStore(isSidebarOpen);
+
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [session, setSession] = React.useState<Session | null>(initialSession);
   
-  const $isSidebarOpen = useStore(isSidebarOpen);
-
 useEffect(() => {
   async function initializeAuth() {
     if (!accessToken || !refreshToken) {
@@ -40,7 +41,6 @@ useEffect(() => {
       <div className="dashboard-calendar">
         <Calendar initialSession={session} selectedMonth={selectedMonth} onMonthChange={setSelectedMonth} />
       </div>
-
       <div className={`dashboard-sidebar ${$isSidebarOpen ? "open" : "closed"}`}>
         <TimeStatsView initialSession={session} selectedMonth={selectedMonth} />
         <ClientView initialSession={session} selectedMonth={selectedMonth} />

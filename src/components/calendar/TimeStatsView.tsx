@@ -1,7 +1,7 @@
-import React from "react";
-import type { Session } from "@supabase/supabase-js";
-import { exportToCsv } from "@lib/utils/exportCsv";
 import { useTimeStats } from "@hooks/useTimeStats";
+import { exportToCsv } from "@lib/utils/exportCsv";
+import type { Session } from "@supabase/supabase-js";
+import React from "react";
 
 type TimeStatsProps = {
   initialSession: Session | null;
@@ -34,7 +34,6 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
           <ul className="flex flex-col">
             {[
               { title: "Idag", hours: timeStats.today.toFixed(1) },
-              { title: "Vecka", hours: timeStats.week.toFixed(1) },
               { title: "Månad", hours: timeStats.month.toFixed(1) },
               { title: "År", hours: timeStats.year.toFixed(1) },
             ].map(({ title, hours }) => (
@@ -64,7 +63,6 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
         </div>
       </div>
       <div className="pt-sm">
-        {!$authError ? (
           <button
             onClick={handleExport}
             aria-controls="export-stats-modal"
@@ -72,7 +70,6 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
             data-variant="white">
             Exportera statistik
           </button>
-        ) : null}
       </div>
     </section>
   );

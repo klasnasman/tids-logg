@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { createClient, updateClient, deleteClient } from "@lib/api/clients";
-import { supabase, type User } from "@lib/supabase";
-import type { Session } from "@supabase/supabase-js";
-import { useStore } from "@nanostores/react";
 import { refreshDashboardData } from "@lib/actions/refreshDashboardData";
+import { createClient, deleteClient, updateClient } from "@lib/api/clients";
+import { authStore } from "@lib/stores/auth/authStore";
 import { clientStore, loadClients } from "@lib/stores/clientStore";
+import { closeClientModal } from "@lib/stores/UIStore";
+import { useStore } from "@nanostores/react";
+import type { Session } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 
 interface UseClientProps {
   initialSession: Session | null;
@@ -14,9 +15,10 @@ interface UseClientProps {
 export function useClient({ initialSession, selectedMonth }: UseClientProps) {
 
   const $clients = useStore(clientStore);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const $auth = useStore(authStore);
+  const user = initialSession?.user ?? $auth.user;  
 
+  const [loading, setLoading] = useState(true);
   const [newClientName, setNewClientName] = useState("");
   const [newClientDescription, setNewClientDescription] = useState("");
   const [newClientColor, setNewClientColor] = useState("#0055FF");
@@ -24,39 +26,6 @@ export function useClient({ initialSession, selectedMonth }: UseClientProps) {
 
   const [editingColorId, setEditingColorId] = useState<string | null>(null);
   const [editingNames, setEditingNames] = useState<Record<string, string>>({});
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
-
-  useEffect(() => {
-    if (!initialSession) {
-      setUser(null);
-      setAuthError("Not logged in.");
-      setLoading(false);
-      return;
-    }
-
-    supabase.auth
-      .setSession(initialSession)
-      .then(() => supabase.auth.getUser())
-      .then(({ data }) => {
-        if (data.user) {
-          setUser(data.user as User);
-          setAuthError(null);
-        } else {
-          setUser(null);
-          setAuthError("Session expired or invalid.");
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setUser(null);
-        setAuthError("Failed to authenticate user.");
-        setLoading(false);
-      });
-  }, [initialSession]);
 
   useEffect(() => {
     if (!user?.id) {
@@ -105,13 +74,12 @@ export function useClient({ initialSession, selectedMonth }: UseClientProps) {
     try {
       await createClient(newClient);
       await reloadClients();
-      setModalOpen(false);
+      closeClientModal();
       setNewClientName("");
       setNewClientDescription("");
       setNewClientColor("#0055FF");
       setAuthError(null);
     } catch (error: any) {
-      // Check for permission errors with clearer handling
       if (error.message?.toLowerCase().includes("policy") || error.code === "42501") {
         setAuthError("Permission denied: You don't have permission to create clients.");
       } else {
@@ -199,9 +167,6 @@ export function useClient({ initialSession, selectedMonth }: UseClientProps) {
     setNewClientColor,
     editingColorId,
     editingNames,
-    modalOpen,
-    openModal,
-    closeModal,
     handleCreateClient,
     handleDeleteClient,
     handleNameInputChange,

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 type ProfileFormProps = {
   userId: string;
 };

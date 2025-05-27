@@ -1,4 +1,4 @@
-import { supabase, type TimeEntry } from '../supabase';
+import { supabase, type TimeEntry } from "@lib/supabase";
 
 export async function getTimeEntriesForDate(userId: string, date: string): Promise<TimeEntry[]> {
   const { data, error } = await supabase
@@ -39,7 +39,7 @@ export async function getTimeEntriesForDateRange(
 
 export async function getTimeEntriesForMonth(userId: string, year: number, month: number): Promise<TimeEntry[]> {
   const from = `${year}-${String(month).padStart(2, "0")}-01`;
-  const lastDay = new Date(year, month, 0).getDate(); // last day of the month
+  const lastDay = new Date(year, month, 0).getDate();
   const to = `${year}-${String(month).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
 
   const { data, error } = await supabase

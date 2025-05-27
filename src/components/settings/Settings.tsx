@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useStore } from "@nanostores/react";
-import { showWeekends, toggleWeekends } from "@lib/stores/calendarUIStore";
-import { AnimateModal } from "@components/misc/AnimateModal";
 import Cog from "@assets/icons/cog";
+import { ProfileForm } from "@components/forms/ProfileForm";
+import { AnimateModal } from "@components/misc/AnimateModal";
 import { authStore } from "@lib/stores/auth/authStore";
 import { profileStore } from "@lib/stores/auth/profileStore";
-import { ProfileForm } from "@components/forms/ProfileForm";
+import { closeSettingsModal, isSettingsModalOpen, openSettingsModal, showWeekends, toggleWeekends } from "@lib/stores/UIStore";
+import { useStore } from "@nanostores/react";
+import React, { useEffect, useState } from "react";
 
 export function Settings() {
+  
   const $show = useStore(showWeekends);
   const $user = useStore(authStore).user;
   const $profile = useStore(profileStore);
 
   const [editingName, setEditingName] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">(() =>
     document.documentElement.getAttribute("data-user-theme") === "dark" ? "dark" : "light"
   );
-
+  const isOpen = useStore(isSettingsModalOpen);
+  
   useEffect(() => {
     const storedWeekends = localStorage.getItem("showWeekends");
     if (storedWeekends !== null) {
@@ -43,11 +44,11 @@ export function Settings() {
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)} aria-label="Open settings">
+      <button onClick={openSettingsModal} aria-label="Open settings">
         <Cog />
       </button>
 
-      <AnimateModal isOpen={modalOpen} onClose={() => setModalOpen(false)} modalClassName="w-modal-width-sm">
+      <AnimateModal isOpen={isOpen} onClose={closeSettingsModal} modalClassName="w-modal-width-sm">
         <div className="flex justify-start items-center w-full">
           <p>Inställningar</p>
         </div>
@@ -55,11 +56,11 @@ export function Settings() {
         <div className="flex flex-col">
           {!$profile?.full_name ? (
             <div className="w-full mt-xs">
-              <ProfileForm userId={$user.id}  />
+              <ProfileForm userId={$user.id} />
             </div>
           ) : editingName ? (
             <div className="w-full mt-xs">
-              <ProfileForm userId={$user.id}  />
+              <ProfileForm userId={$user.id} />
             </div>
           ) : (
             <div className="flex items-end justify-between hover:bg-hover transition-colors">
@@ -115,7 +116,7 @@ export function Settings() {
         </div>
 
         <div className="repel mt-lg" data-reverse>
-          <button type="button" onClick={() => setModalOpen(false)} className="button" data-variant="white">
+          <button type="button" onClick={closeSettingsModal} className="button" data-variant="white">
             Stäng
           </button>
           <form method="GET" action="/api/auth/signout">

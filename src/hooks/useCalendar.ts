@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
-import { useStore } from "@nanostores/react";
 import { refreshDashboardData } from "@lib/actions/refreshDashboardData";
-import { authStore } from "@lib/stores/auth/authStore";
-import { clientStore, loadClients } from "@lib/stores/clientStore";
-import {
-  loading as loadingAtom,
-  authError as authErrorAtom,
-  monthEntries as monthEntriesAtom,
-} from "@lib/stores/timeStatsStore";
-import type { Session } from "@supabase/supabase-js";
-import type { TimeEntry } from "@lib/supabase";
-import { formatDateString, isHoliday } from "@lib/utils/calendar";
 import {
   createTimeEntry,
   deleteTimeEntry,
   getTimeEntriesForDate,
-  getTimeEntriesForMonth,
+  getTimeEntriesForDateRange,
   updateTimeEntry,
 } from "@lib/api/timeEntries";
+import { authStore } from "@lib/stores/auth/authStore";
+import { selectedDateAtom } from "@lib/stores/calendarStore";
+import { clientStore, loadClients } from "@lib/stores/clientStore";
+import {
+  authError as authErrorAtom,
+  loading as loadingAtom,
+  monthEntries as monthEntriesAtom,
+} from "@lib/stores/timeStatsStore";
+import { isCalendarModalOpen } from "@lib/stores/UIStore";
+import type { TimeEntry } from "@lib/supabase";
+import { formatDateString, isHoliday } from "@lib/utils/calendarUtils";
+import { useStore } from "@nanostores/react";
+import type { Session } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 
 interface UseCalendarProps {
   initialSession?: Session | null;
@@ -32,17 +34,16 @@ interface CalendarForm {
 }
 
 export function useCalendar({ initialSession, selectedMonth, onMonthChange }: UseCalendarProps) {
-  
   const $clients = useStore(clientStore);
-  const storeUser = useStore(authStore).user;
-  const user = initialSession?.user ?? storeUser;
-  const $monthEntries = useStore(monthEntriesAtom);  
+  const $monthEntries = useStore(monthEntriesAtom);
+  const $storeUser = useStore(authStore).user;
+  const user = initialSession?.user ?? $storeUser;
 
   const [entriesForSelectedDate, setEntriesForSelectedDate] = useState<TimeEntry[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const selectedDate = useStore(selectedDateAtom);
+
   const [form, setForm] = useState<CalendarForm>({ client: "", hours: "", description: "" });
   const [holidayName, setHolidayName] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [editingDescriptions, setEditingDescriptions] = useState<Record<string, string>>({});
@@ -53,7 +54,6 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
   const [currentTime, setCurrentTime] = useState("");
   const [currentDate, setCurrentDate] = useState("");
 
-  const closeModal = () => setModalOpen(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -88,23 +88,44 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
   useEffect(() => {
     if (user?.id) {
       loadClients(user.id);
-      fetchMonthEntries();
+      fetchCalendarEntries();
     }
   }, [selectedMonth, user?.id]);
 
-  const fetchMonthEntries = async () => {
+  // New function fetching entries for entire calendar grid (6 weeks)
+  async function fetchCalendarEntries() {
     if (!user?.id) return;
 
-    loadingAtom.set(true);
+    setLoading(true);
+
+    const year = selectedMonth.getFullYear();
+    const month = selectedMonth.getMonth();
+
+    // First day of the selected month
+    const firstOfMonth = new Date(year, month, 1);
+    const firstWeekday = firstOfMonth.getDay(); // Sunday=0 ... Saturday=6
+
+    // Start date = previous Sunday before or equal to 1st of month
+    const gridStart = new Date(firstOfMonth);
+    gridStart.setDate(firstOfMonth.getDate() - firstWeekday);
+
+    // Calendar grid covers 6 rows * 7 days = 42 days
+    const gridEnd = new Date(gridStart);
+    gridEnd.setDate(gridStart.getDate() + 41);
+
+    // Format YYYY-MM-DD helper
+    const formatDate = (d: Date) => d.toISOString().slice(0, 10);
+
     try {
-      const monthData = await getTimeEntriesForMonth(user.id, currentYear, currentMonth + 1);
-      monthEntriesAtom.set(monthData);
+      const entries = await getTimeEntriesForDateRange(user.id, formatDate(gridStart), formatDate(gridEnd));
+      monthEntriesAtom.set(entries);
     } catch (error) {
-      console.error("Error fetching month entries:", error);
+      console.error("Error fetching calendar entries:", error);
+      monthEntriesAtom.set([]);
     } finally {
-      loadingAtom.set(false);
+      setLoading(false);
     }
-  };
+  }
 
   const groupAndSumEntriesByClient = (entries: TimeEntry[]) => {
     const grouped = new Map<string, { client_id: string; hours: number; id: string }>();
@@ -128,8 +149,8 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
   const handleDateClick = async (date: Date) => {
     if (!user?.id) return;
 
-    setSelectedDate(date);
-    setModalOpen(true);
+    selectedDateAtom.set(date);
+    isCalendarModalOpen.set(true); // explicitly open the modal
 
     const formatted = formatDateString(date);
     const fetchedEntries = await getTimeEntriesForDate(user.id, formatted);
@@ -143,7 +164,7 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     e.preventDefault();
     if (!user?.id || !selectedDate) return;
 
-    const formatted = formatDateString(selectedDate);    
+    const formatted = formatDateString(selectedDate);
     await createTimeEntry({
       user_id: user.id,
       client_id: form.client,
@@ -157,7 +178,7 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     const updated = await getTimeEntriesForDate(user.id, formatted);
     setEntriesForSelectedDate(updated);
 
-    fetchMonthEntries();
+    fetchCalendarEntries();
 
     refreshDashboardData(user.id, selectedMonth);
   };
@@ -167,12 +188,11 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
 
     await deleteTimeEntry(entryId);
 
-    // Refresh entries for the selected date
-    const formatted = formatDateString(selectedDate);    
+    const formatted = formatDateString(selectedDate);
     const updated = await getTimeEntriesForDate(user.id, formatted);
     setEntriesForSelectedDate(updated);
 
-    fetchMonthEntries();
+    fetchCalendarEntries();
 
     refreshDashboardData(user.id, selectedMonth);
   };
@@ -219,7 +239,7 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
           delete copy[entryId];
           return copy;
         });
-        fetchMonthEntries();
+        fetchCalendarEntries();
         await refreshDashboardData(user.id, selectedMonth);
       } catch (err) {
         console.error("Failed to update hours:", err);
@@ -235,7 +255,7 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
           delete copy[entryId];
           return copy;
         });
-        fetchMonthEntries();
+        fetchCalendarEntries();
         await refreshDashboardData(user.id, selectedMonth);
       } catch (err) {
         console.error("Failed to update description:", err);
@@ -257,15 +277,13 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     currentMonth,
     currentTime,
     currentDate,
-    modalOpen,
-    closeModal,
     handleDateClick,
     handleFormSubmit,
     handleDelete,
     handleMonthChange,
     handleTodayClick,
     refreshDashboardData,
-    fetchMonthEntries,
+    fetchCalendarEntries,
     updateEntryField,
     saveEntryEdit,
     setEditingHours,
