@@ -49,7 +49,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
                       handleColorChange(client.id, newColor);
                     }}
                     onBlur={handleColorPickerClose}
-                    className="w-2 cursor-default hover:opacity-80 transition-opacity"
+                    className="w-2 cursor-default hover:opacity-60 transition-opacity"
                   />
                   <input
                     type="text"

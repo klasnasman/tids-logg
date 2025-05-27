@@ -109,8 +109,8 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
       </nav>
 
       <div
-        className={`grid h-full px-base p-base gap-xs grid-rows-[min-content_repeat(5,auto)] ${
-          $showWeekends ? "grid-cols-[auto_repeat(7,minmax(0,1fr))]" : "grid-cols-[auto_repeat(5,minmax(0,1fr))]"
+        className={`grid h-full px-base p-base gap-xs grid-rows-[min-content_repeat(5,auto)] [&>div:nth-child(7)]:text-muted [&>div:nth-child(8)]:text-muted ${
+          $showWeekends ? "grid-cols-[auto_repeat(7,minmax(0,1fr))] " : "grid-cols-[auto_repeat(5,minmax(0,1fr))]"
         }`}>
         <div aria-hidden="true"></div>
         {visibleDays.map((day) => (
