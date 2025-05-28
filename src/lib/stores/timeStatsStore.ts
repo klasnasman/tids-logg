@@ -28,20 +28,17 @@ export const monthEntries = atom<TimeEntry[]>([]);
 export const allEntries = atom<TimeEntry[]>([]);
 
 function getDateRanges(selectedDate: Date) {
-  // Current real date/time for today/week calculation:
+
   const now = new Date();
   now.setHours(0, 0, 0, 0);
 
-  // Selected month date for month/year ranges:
   const monthDate = new Date(selectedDate);
   monthDate.setHours(23, 59, 59, 999);
 
-  // Today range (based on actual today)
   const startOfToday = new Date(now);
   const endOfToday = new Date(now);
   endOfToday.setHours(23, 59, 59, 999);
 
-  // Week range (based on actual today)
   const currentDay = now.getDay();
   const diff = currentDay === 0 ? 6 : currentDay - 1;
 
@@ -53,7 +50,6 @@ function getDateRanges(selectedDate: Date) {
   endOfWeek.setDate(startOfWeek.getDate() + 6);
   endOfWeek.setHours(23, 59, 59, 999);
 
-  // Month range (based on selected month)
   const startOfMonth = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
   const endOfMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
   endOfMonth.setHours(23, 59, 59, 999);
@@ -63,7 +59,6 @@ function getDateRanges(selectedDate: Date) {
   // Clamp endOfWeek to not be after endOfMonth
   const clampedEndOfWeek = endOfWeek > endOfMonth ? endOfMonth : endOfWeek;
 
-  // Year range (based on selected month)
   const startOfYear = new Date(monthDate.getFullYear(), 0, 1);
   const endOfYear = new Date(monthDate.getFullYear(), 11, 31);
 
