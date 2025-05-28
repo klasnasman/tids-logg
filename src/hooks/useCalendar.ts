@@ -79,12 +79,10 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     return () => clearInterval(interval);
   }, []);
 
-  // Clear month entries when month changes
   useEffect(() => {
     monthEntriesAtom.set([]);
   }, [selectedMonth]);
 
-  // Load clients and fetch entries when year/month/user changes
   useEffect(() => {
     if (user?.id) {
       loadClients(user.id);
@@ -92,7 +90,6 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     }
   }, [selectedMonth, user?.id]);
 
-  // New function fetching entries for entire calendar grid (6 weeks)
   async function fetchCalendarEntries() {
     if (!user?.id) return;
 
@@ -101,19 +98,15 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     const year = selectedMonth.getFullYear();
     const month = selectedMonth.getMonth();
 
-    // First day of the selected month
     const firstOfMonth = new Date(year, month, 1);
     const firstWeekday = firstOfMonth.getDay(); // Sunday=0 ... Saturday=6
 
-    // Start date = previous Sunday before or equal to 1st of month
     const gridStart = new Date(firstOfMonth);
     gridStart.setDate(firstOfMonth.getDate() - firstWeekday);
 
-    // Calendar grid covers 6 rows * 7 days = 42 days
     const gridEnd = new Date(gridStart);
     gridEnd.setDate(gridStart.getDate() + 41);
 
-    // Format YYYY-MM-DD helper
     const formatDate = (d: Date) => d.toISOString().slice(0, 10);
 
     try {
