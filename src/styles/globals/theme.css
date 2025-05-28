@@ -34,6 +34,9 @@
   --text-base: var(--text-xs);
   --text-input: var(--text-xs);
 
+  /* LINE HEIGHT */
+  --leading-input: 1.1; 
+
   /* COLOR - UI (bg-global-background / text-muted) */
   --color-global-text: var(--color-gray-950);
   --color-global-background: var(--color-gray-50);
@@ -47,6 +50,9 @@
   --color-danger: var(--color-red-500);
   --color-danger-dark-text: var(--color-red-700);
   --color-danger-dark-background: var(--color-red-100);
+  --color-info-text: var(--color-amber-700);
+  --color-info-bg: var(--color-amber-50);
+  --color-info-border: var(--color-amber-200);
 
   /* SPACING - FIXED (px-base / max-h-header) */
   --spacing-xs: 0.25rem;

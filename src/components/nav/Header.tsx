@@ -4,9 +4,9 @@ import { Settings } from "@components/settings/Settings";
 import { authStore } from "@lib/stores/auth/authStore";
 import { isSidebarOpen, toggleSidebar } from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
+import { LoginForm } from "@components/forms/LoginForm";
 
 export default function Header() {
-  
   const user = useStore(authStore).user;
   const $isSidebarOpen = useStore(isSidebarOpen);
 
@@ -22,36 +22,7 @@ export default function Header() {
             <div>
               <p className="text-logo p-xs border border-logo border-dashed rounded-[1px]">TIDS:LOGG</p>
             </div>
-            <form
-              id="auth-form"
-              method="POST"
-              action="/api/auth/signin"
-              className="flex flex-col justify-between items-center gap-md">
-              <div className="flex flex-col items-baseline gap-md">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="E-post"
-                  className="w-[220px] border-b border-dashed"
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Lösenord"
-                  className="w-[220px] border-b border-dashed"
-                  required
-                />
-              </div>
-              <div className="repel mt-lg" data-reverse>
-                <button type="submit" name="auth-action" value="login" className="button" data-variant="white">
-                  Logga in
-                </button>
-                <button type="submit" name="auth-action" value="register" className="button" data-variant="text">
-                  Ny användare
-                </button>
-              </div>
-            </form>
+            <LoginForm />
           </header>
         </div>
         <span className="fixed bg-global-background border-b border-global-text z-40 top-0 left-0 right-0 h-header" />

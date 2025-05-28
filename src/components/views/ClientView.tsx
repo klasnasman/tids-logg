@@ -1,7 +1,7 @@
 import Delete from "@assets/icons/delete";
-import { AnimateModal } from "@components/misc/AnimateModal";
+import ClientModal from "@components/modals/ClientModal";
 import { useClient } from "@hooks/useClient";
-import { closeClientModal, isClientModalOpen, openClientModal } from "@lib/stores/UIStore";
+import { isClientModalOpen, openClientModal } from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
 import type { Session } from "@supabase/supabase-js";
 import React from "react";
@@ -30,7 +30,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
     handleColorChange,
     handleColorPickerClose,
   } = useClient({ initialSession, selectedMonth });
-  
+
   const isOpen = useStore(isClientModalOpen);
 
   return (
@@ -81,57 +81,17 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
           ) : null}
         </div>
       </div>
-      <AnimateModal isOpen={isOpen} onClose={closeClientModal} modalClassName="flow">
-        <form
-          id="new-project-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleCreateClient();
-          }}>
-          <div className="flow">
-            <div className="flex justify-start items-center w-full">
-              <p>Skapa ny kund</p>
-            </div>
-            <div className="flow-sm">
-              <div className="flex gap-base">
-                <input
-                  id="client-name"
-                  type="text"
-                  value={newClientName}
-                  onChange={(e) => setNewClientName(e.target.value)}
-                  required
-                  className="w-full px-3 py-base border cursor-text focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Kundnamn"
-                  autoFocus
-                />
-                <input
-                  id="client-color"
-                  type="color"
-                  value={newClientColor}
-                  onChange={(e) => setNewClientColor(e.target.value)}
-                  className="w-input-height cursor-default"
-                />
-              </div>
-              <textarea
-                id="client-description"
-                value={newClientDescription}
-                onChange={(e) => setNewClientDescription(e.target.value)}
-                className="w-full px-3 py-base border cursor-text focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Beskriv kunden"
-                rows={3}
-              />
-              <div className="repel mt-lg">
-                <button type="button" onClick={closeClientModal} className="button" data-variant="white">
-                  Stäng
-                </button>
-                <button className="button" data-variant="white" type="submit" disabled={!user?.id}>
-                  Skapa
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </AnimateModal>
+      <ClientModal
+        isOpen={isOpen}
+        newClientName={newClientName}
+        newClientColor={newClientColor}
+        newClientDescription={newClientDescription}
+        user={user}
+        setNewClientName={setNewClientName}
+        setNewClientColor={setNewClientColor}
+        setNewClientDescription={setNewClientDescription}
+        handleCreateClient={handleCreateClient}
+      />
     </section>
   );
 };

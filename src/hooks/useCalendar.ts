@@ -150,7 +150,7 @@ export function useCalendar({ initialSession, selectedMonth, onMonthChange }: Us
     if (!user?.id) return;
 
     selectedDateAtom.set(date);
-    isCalendarModalOpen.set(true); // explicitly open the modal
+    isCalendarModalOpen.set(true);
 
     const formatted = formatDateString(date);
     const fetchedEntries = await getTimeEntriesForDate(user.id, formatted);

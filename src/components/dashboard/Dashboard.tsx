@@ -1,6 +1,6 @@
-import Calendar from "@components/calendar/CalendarView";
-import ClientView from "@components/calendar/ClientView";
-import TimeStatsView from "@components/calendar/TimeStatsView";
+import Calendar from "@components/views/CalendarView";
+import ClientView from "@components/views/ClientView";
+import TimeStatsView from "@components/views/TimeStatsView";
 import { authStore, initAuth, setSession } from "@lib/stores/auth/authStore";
 import { selectedMonthAtom, setSelectedMonth } from "@lib/stores/calendarStore";
 import { isSidebarOpen } from "@lib/stores/UIStore";

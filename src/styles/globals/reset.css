@@ -23,7 +23,7 @@ body {
 :where(input, select) {
   font-size: var(--text-input, 1rem);
   height: var(--spacing-input-height, 25px);
-  line-height: 1.1;
+  line-height: var(--leading-input, 1.1);
 }
 
 /* A elements that don't have a class get default styles */
