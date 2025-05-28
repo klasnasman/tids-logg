@@ -84,7 +84,6 @@ export function getCalendarDays(year: number, month: number): Date[] {
 
   const currentMonthDays = getDaysInMonthArray(year, month);
 
-  // Next month days
   const nextMonthDays = [];
   for (let i = 1; i <= daysToAdd; i++) {
     const day = new Date(year, month + 1, i);
@@ -176,12 +175,12 @@ export function getVisibleCalendarDays(year: number, month: number, showWeekends
 
 export function getWeekNumber(date: Date): number {
   const tmpDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  // Set to nearest Thursday: current date + 4 - current day number
+
   const dayNum = tmpDate.getUTCDay() || 7;
   tmpDate.setUTCDate(tmpDate.getUTCDate() + 4 - dayNum);
-  // January 1st of the year
+
   const yearStart = new Date(Date.UTC(tmpDate.getUTCFullYear(), 0, 1));
-  // Calculate full weeks to nearest Thursday
+
   const weekNo = Math.ceil(((tmpDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   return weekNo;
 }
