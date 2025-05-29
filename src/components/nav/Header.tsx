@@ -37,7 +37,7 @@ export default function Header() {
       <span className="text-logo p-xs border border-logo border-dashed rounded-[1px]">TIDS:LOGG</span>
 
       <div className="flex items-center gap-md h-full">
-        <div id="profile-area" className="flex items-center gap-md">
+        <div className="flex items-center gap-md">
           <div className="flex items-center gap-base">
             <Settings />
             <button
