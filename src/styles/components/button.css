@@ -33,6 +33,12 @@
     border-color: var(--color-global-text);
   }
 
+  .button[data-variant='danger'] {
+    background-color: var(--color-global-background);
+    border-color: var(--color-global-text);
+  }
+
+
   .button[data-variant='text'] {
     background-color: var(--color-global-background);
     border-color: transparent;
@@ -88,6 +94,11 @@
       background-color: var(--color-global-text);
       border-color: var(--color-global-background);
       color: var(--color-global-background);
+    }
+
+    .button[data-variant='danger']:hover {
+      color: var(--color-danger);
+      border-color: var(--color-danger);
     }
 
     .button[data-variant='text']:hover {

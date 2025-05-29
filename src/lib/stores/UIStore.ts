@@ -36,10 +36,10 @@ export const toggleSettingsModal = () => {
   isSettingsModalOpen.set(!isSettingsModalOpen.get());
 };
 
-export const isDeleteConfirmOpen = atom(false);
+export const isConfirmModalOpen = atom(false);
 
-export const openDeleteConfirm = () => isDeleteConfirmOpen.set(true);
-export const closeDeleteConfirm = () => isDeleteConfirmOpen.set(false);
-export const toggleDeleteConfirm = () => {
-  isDeleteConfirmOpen.set(!isDeleteConfirmOpen.get());
+export const openConfirmModal = () => isConfirmModalOpen.set(true);
+export const closeConfirmModal = () => isConfirmModalOpen.set(false);
+export const toggleConfirmModal = () => {
+  isConfirmModalOpen.set(!isConfirmModalOpen.get());
 };

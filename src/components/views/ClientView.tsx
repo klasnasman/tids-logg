@@ -1,7 +1,8 @@
 import Delete from "@assets/icons/delete";
 import ClientModal from "@components/modals/ClientModal";
+import ConfirmationModal from "@components/modals/ConfirmationModal";
 import { useClient } from "@hooks/useClient";
-import { isClientModalOpen, openClientModal } from "@lib/stores/UIStore";
+import { isClientModalOpen, isConfirmModalOpen, openClientModal } from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
 import type { Session } from "@supabase/supabase-js";
 import React from "react";
@@ -23,12 +24,16 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
     setNewClientColor,
     editingNames,
     handleCreateClient,
-    handleDeleteClient,
     handleNameInputChange,
     handleSubmitNameUpdate,
     handleNameKeyDown,
     handleColorChange,
     handleColorPickerClose,
+    openConfirmDeleteModal,
+    closeConfirmDeleteModal,
+    confirmDeleteClient,
+    isConfirmOpen,
+    clientToDelete,
   } = useClient({ initialSession, selectedMonth });
 
   const isOpen = useStore(isClientModalOpen);
@@ -63,7 +68,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
               </div>
               <button
                 className="hover:text-danger transition-colors pl-2"
-                onClick={() => handleDeleteClient(client.id)}>
+                onClick={() => openConfirmDeleteModal(client)}>
                 <Delete />
               </button>
             </article>
@@ -91,6 +96,13 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
         setNewClientColor={setNewClientColor}
         setNewClientDescription={setNewClientDescription}
         handleCreateClient={handleCreateClient}
+      />
+      <ConfirmationModal
+        isOpen={isConfirmOpen}
+        onClose={closeConfirmDeleteModal}
+        onConfirm={confirmDeleteClient}
+        title={`Radera kund '${clientToDelete?.name ?? ""}'`}
+        message="Alla tidsregistreringar för denna kund kommer att tas bort. Detta kan inte ångras."
       />
     </section>
   );

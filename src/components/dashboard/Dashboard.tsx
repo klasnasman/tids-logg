@@ -36,6 +36,7 @@ const Dashboard: React.FC<Props> = ({ initialSession, accessToken, refreshToken 
     initializeAuth();
   }, [accessToken, refreshToken, initialSession]);
 
+
   return (
     <div className="dashboard">
       <div className="dashboard-calendar">

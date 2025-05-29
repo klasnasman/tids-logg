@@ -1,6 +1,6 @@
-import Cog from "@assets/icons/cog";
+import Tune from "@assets/icons/tune";
 import { ProfileForm } from "@components/forms/ProfileForm";
-import { AnimateModal } from "@components/misc/AnimateModal";
+import { ModalWrapper } from "@components/modals/ModalWrapper";
 import { authStore } from "@lib/stores/auth/authStore";
 import { profileStore } from "@lib/stores/auth/profileStore";
 import { closeSettingsModal, isSettingsModalOpen, openSettingsModal, showWeekends, toggleWeekends } from "@lib/stores/UIStore";
@@ -45,10 +45,10 @@ export function Settings() {
   return (
     <>
       <button onClick={openSettingsModal} aria-label="Open settings">
-        <Cog />
+        <Tune />
       </button>
 
-      <AnimateModal isOpen={isOpen} onClose={closeSettingsModal} modalClassName="w-modal-width-sm">
+      <ModalWrapper isOpen={isOpen} onClose={closeSettingsModal} modalClassName="w-modal-width-sm">
         <div className="flex justify-start items-center w-full">
           <p>Inställningar</p>
         </div>
@@ -125,7 +125,7 @@ export function Settings() {
             </button>
           </form>
         </div>
-      </AnimateModal>
+      </ModalWrapper>
     </>
   );
 }

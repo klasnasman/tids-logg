@@ -2,7 +2,8 @@ import { refreshDashboardData } from "@lib/actions/refreshDashboardData";
 import { createClient, deleteClient, updateClient } from "@lib/api/clients";
 import { authStore } from "@lib/stores/auth/authStore";
 import { clientStore, loadClients } from "@lib/stores/clientStore";
-import { closeClientModal } from "@lib/stores/UIStore";
+import { closeClientModal, closeConfirmModal, isConfirmModalOpen, openConfirmModal } from "@lib/stores/UIStore";
+import type { Client } from "@lib/supabase";
 import { useStore } from "@nanostores/react";
 import type { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
@@ -13,16 +14,18 @@ interface UseClientProps {
 }
 
 export function useClient({ initialSession, selectedMonth }: UseClientProps) {
-
-  const $clients = useStore(clientStore);
   const $auth = useStore(authStore);
-  const user = initialSession?.user ?? $auth.user;  
+  const $clients = useStore(clientStore);
+  const isConfirmOpen = useStore(isConfirmModalOpen);
+  const user = initialSession?.user ?? $auth.user;
 
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [clientToDelete, setClientToDelete] = useState<Client | null>(null);
+
   const [newClientName, setNewClientName] = useState("");
   const [newClientDescription, setNewClientDescription] = useState("");
   const [newClientColor, setNewClientColor] = useState("#0055FF");
-  const [authError, setAuthError] = useState<string | null>(null);
 
   const [editingColorId, setEditingColorId] = useState<string | null>(null);
   const [editingNames, setEditingNames] = useState<Record<string, string>>({});
@@ -154,25 +157,47 @@ export function useClient({ initialSession, selectedMonth }: UseClientProps) {
     setEditingColorId(null);
   };
 
+  const openConfirmDeleteModal = (client: Client) => {
+    setClientToDelete(client);
+    isConfirmModalOpen.set(true);
+  };
+
+  const closeConfirmDeleteModal = () => {
+    setClientToDelete(null);
+    isConfirmModalOpen.set(false);
+  };
+
+  const confirmDeleteClient = async () => {
+    if (clientToDelete) {
+      await handleDeleteClient(clientToDelete.id);
+    }
+    closeConfirmDeleteModal();
+  };
+
   return {
     user,
     $clients,
     loading,
     authError,
     newClientName,
-    setNewClientName,
     newClientDescription,
-    setNewClientDescription,
     newClientColor,
+    setNewClientName,
+    setNewClientDescription,
     setNewClientColor,
     editingColorId,
     editingNames,
-    handleCreateClient,
-    handleDeleteClient,
-    handleNameInputChange,
-    handleSubmitNameUpdate,
-    handleNameKeyDown,
     handleColorChange,
     handleColorPickerClose,
+    handleNameInputChange,
+    handleNameKeyDown,
+    handleSubmitNameUpdate,
+    handleCreateClient,
+    handleDeleteClient,
+    isConfirmOpen,
+    clientToDelete,
+    openConfirmDeleteModal,
+    closeConfirmDeleteModal,
+    confirmDeleteClient,
   };
 }

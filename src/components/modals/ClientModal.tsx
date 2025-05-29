@@ -1,7 +1,6 @@
-import { AnimateModal } from "@components/misc/AnimateModal";
+import { ModalWrapper } from "@components/modals/ModalWrapper";
 import { closeClientModal } from "@lib/stores/UIStore";
 import type { User } from "@supabase/supabase-js";
-import React from "react";
 
 interface ClientModalProps {
   isOpen: boolean;
@@ -27,17 +26,16 @@ export default function ClientModal({
   handleCreateClient,
 }: ClientModalProps) {
   return (
-    <AnimateModal isOpen={isOpen} onClose={closeClientModal} modalClassName="flow">
+    <ModalWrapper isOpen={isOpen} onClose={closeClientModal}>
+      <div className="flex justify-start items-center w-full">
+        <p>Skapa ny kund</p>
+      </div>
       <form
         id="new-project-form"
         onSubmit={(e) => {
           e.preventDefault();
           handleCreateClient();
         }}>
-        <div className="flow">
-          <div className="flex justify-start items-center w-full">
-            <p>Skapa ny kund</p>
-          </div>
           <div className="flow-sm">
             <div className="flex gap-base">
               <input
@@ -75,8 +73,7 @@ export default function ClientModal({
               </button>
             </div>
           </div>
-        </div>
       </form>
-    </AnimateModal>
+    </ModalWrapper>
   );
 }

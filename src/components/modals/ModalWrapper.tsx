@@ -2,7 +2,7 @@ import React, { type ReactNode, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface AnimateModalProps {
+interface ModalWrapperProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
@@ -10,13 +10,13 @@ interface AnimateModalProps {
   modalClassName?: string;
 }
 
-export function AnimateModal({
+export function ModalWrapper({
   isOpen,
   onClose,
   children,
   backdropClassName = "",
   modalClassName = "",
-}: AnimateModalProps) {
+}: ModalWrapperProps) {
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();

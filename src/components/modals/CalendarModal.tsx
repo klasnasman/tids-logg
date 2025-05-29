@@ -1,7 +1,6 @@
 import Delete from "@assets/icons/delete";
-import { AnimateModal } from "@components/misc/AnimateModal";
+import { ModalWrapper } from "@components/modals/ModalWrapper";
 import { closeCalendarModal } from "@lib/stores/UIStore";
-import type { Session } from "@supabase/supabase-js";
 import React from "react";
 
 interface CalendarModalProps {
@@ -52,7 +51,7 @@ export default function CalendarModal({
   saveEntryEdit,
 }: CalendarModalProps) {
   return (
-    <AnimateModal isOpen={isOpen} onClose={closeCalendarModal}>
+    <ModalWrapper isOpen={isOpen} onClose={closeCalendarModal}>
       <div className="flex justify-start items-center w-full">
         <span className="flex gap-[1ch]">
           <p>{day}</p>
@@ -95,7 +94,7 @@ export default function CalendarModal({
                         type="text"
                         className="text-muted border-b w-full min-w-0 border-dashed px-xs truncate transition-all hover:bg-hover focus:bg-input-focus"
                         value={editingDescriptions[entry.id] ?? entry.description ?? ""}
-                        placeholder="Beskrivning"
+                        placeholder=""
                         onFocus={() => setEditingEntryId(entry.id)}
                         onChange={(e) => updateEntryField(entry.id, "description", e.target.value)}
                       />
@@ -178,6 +177,6 @@ export default function CalendarModal({
           )}
         </div>
       </form>
-    </AnimateModal>
+    </ModalWrapper>
   );
 }
