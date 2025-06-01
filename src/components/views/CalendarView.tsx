@@ -58,11 +58,11 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
 
   const filteredCalendarDays = getVisibleCalendarDays(currentYear, currentMonth, $showWeekends);
   const calendarWithWeeks = getCalendarWithWeeks(filteredCalendarDays, $showWeekends);
+  const currentWeekNumber = getWeekNumber(new Date());
   const visibleDays = $showWeekends ? DAYS_OF_WEEK : DAYS_OF_WEEK.slice(0, 5);
   const [editingEntryId, setEditingEntryId] = React.useState<string | null>(null);
   const formattedDate = formatSwedishDate(selectedDate);
   const [day, month, year] = formattedDate.split(" ");
-  const currentWeekNumber = getWeekNumber(new Date());
 
   return (
     <section className="calendar-view / h-full flex flex-col overflow-y-auto">
@@ -111,7 +111,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
         className={`grid h-full px-base p-base gap-xs grid-rows-[min-content_repeat(5,auto)] [&>div:nth-child(7)]:text-muted [&>div:nth-child(8)]:text-muted ${
           $showWeekends ? "grid-cols-[auto_repeat(7,minmax(0,1fr))] " : "grid-cols-[auto_repeat(5,minmax(0,1fr))]"
         }`}>
-        <div aria-hidden="true"></div>
+        <p aria-hidden="true"></p>
         {visibleDays.map((day) => (
           <div key={day} className="text-center">
             {day}
@@ -121,13 +121,15 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
         {calendarWithWeeks.map((item, index) => {
           if (typeof item === "number") {
             const isCurrentWeek = item === currentWeekNumber;
+            console.log("Week number in calendar:", item, "isCurrentWeek:", isCurrentWeek);
+
             return (
-              <div
+              <p
                 key={"week-" + index}
                 className={`grid justify-center text-xxs leading-none ${isCurrentWeek ? "text-blue-500" : "text-muted"}`}
                 style={{ writingMode: "sideways-lr" }}>
                 {item}
-              </div>
+              </p>
             );
           }
 
