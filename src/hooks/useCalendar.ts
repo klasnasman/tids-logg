@@ -36,8 +36,8 @@ interface CalendarForm {
 export function useCalendar({ initialSession, selectedMonth, onMonthChange }: UseCalendarProps) {
   const $clients = useStore(clientStore);
   const $monthEntries = useStore(monthEntriesAtom);
-  const $storeUser = useStore(authStore).user;
-  const user = initialSession?.user ?? $storeUser;
+  const $auth = useStore(authStore);
+  const user = initialSession?.user ?? $auth.user;
 
   const [entriesForSelectedDate, setEntriesForSelectedDate] = useState<TimeEntry[]>([]);
   const selectedDate = useStore(selectedDateAtom);

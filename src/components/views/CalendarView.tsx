@@ -142,7 +142,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
               key={dateStr}
               onClick={() => handleDateClick(date)}
               className="calendar-card / border p-xs cursor-pointer transition-all hover:bg-hover hover:shadow-sm">
-              <p className={`w-full text-left pb-xs text-xxs ${buttonTextClass}`} title={holidayTitle ?? ""}>
+              <p className={`w-full text-left pb-xs text-xxs leading-none ${buttonTextClass}`} title={holidayTitle ?? ""}>
                 {date.getDate()}
               </p>
               {entriesForDate.length > 0 && (

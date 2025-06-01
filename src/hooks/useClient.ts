@@ -15,9 +15,9 @@ interface UseClientProps {
 
 export function useClient({ initialSession, selectedMonth }: UseClientProps) {
   const $auth = useStore(authStore);
+  const user = initialSession?.user ?? $auth.user;
   const $clients = useStore(clientStore);
   const isConfirmOpen = useStore(isConfirmModalOpen);
-  const user = initialSession?.user ?? $auth.user;
 
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
