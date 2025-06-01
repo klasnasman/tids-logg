@@ -59,7 +59,7 @@ export default function CalendarModal({
           <p>{year}</p>
         </span>
         {holidayName && (
-          <div className="h-input absolute -top-[25px] -right-[1px] transform p-xs bg-info-bg text-info-text border border-info-border z-modal">
+          <div className="h-input absolute -top-[26px] -right-[1px] transform p-xs bg-info-bg text-info-text border border-info-border z-modal">
             <p className="leading-input">{holidayName}</p>
           </div>
         )}
