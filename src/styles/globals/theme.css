@@ -44,7 +44,7 @@
   --color-hover: var(--color-blue-100);
   --color-border: var(--color-gray-400);
   --color-muted: var(--color-gray-500);
-  --color-input-focus: var(--color-gray-200);
+  --color-input-focus: var(--color-blue-200);
   --color-scrollbar-track: var(--color-gray-600);
   --color-scrollbar-thumb: var(--color-gray-400);
   --color-danger: var(--color-red-500);
@@ -148,7 +148,7 @@
     --color-hover: var(--color-cyan-950);
     --color-muted: var(--color-gray-400);
     --color-border: var(--color-gray-600);
-    --color-input-focus: var(--color-gray-800);
+    --color-input-focus: var(--color-cyan-900);
     --color-scrollbar-track: var(--color-gray-600);
     --color-scrollbar-thumb: var(--color-gray-400);
     --color-danger-dark-text: var(--color-red-100);

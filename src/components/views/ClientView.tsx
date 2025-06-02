@@ -41,9 +41,9 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
   return (
     <section className="clients / h-1/2 px-base pt-base border-t border-global-text overflow-y-auto">
       <div id="client-list" className="flex flex-col justify-between h-full">
-        <div className="flex flex-col gap-xs">
+        <div className="flex flex-col gap-base">
           {$clients.map((client) => (
-            <article key={client.id} className="flex items-center justify-between py-xs">
+            <article key={client.id} className="flex items-center justify-between">
               <div className="repel" data-nowrap>
                 <div className="flex items-center gap-base w-full">
                   <input
@@ -65,12 +65,12 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
                     className="w-full border-b border-dashed px-xs truncate transition hover:bg-hover focus:bg-input-focus"
                   />
                 </div>
-              </div>
               <button
-                className="hover:text-danger transition-colors pl-2"
+                className="hover:text-danger transition-colors"
                 onClick={() => openConfirmDeleteModal(client)}>
                 <Delete />
               </button>
+              </div>
             </article>
           ))}
         </div>

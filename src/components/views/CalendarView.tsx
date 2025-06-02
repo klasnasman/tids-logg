@@ -121,7 +121,6 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
         {calendarWithWeeks.map((item, index) => {
           if (typeof item === "number") {
             const isCurrentWeek = item === currentWeekNumber;
-            console.log("Week number in calendar:", item, "isCurrentWeek:", isCurrentWeek);
 
             return (
               <p
@@ -152,7 +151,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
                   {entriesForDate.map((entry) => {
                     const client = $clients.find((p) => p.id === entry.client_id);
                     return (
-                      <li key={entry.id} className="truncate flex items-baseline gap-1">
+                      <li key={entry.id} className="truncate flex items-baseline gap-xs">
                         {client?.color && (
                           <span className="w-1 h-3 inline-block shrink-0" style={{ backgroundColor: client.color }} />
                         )}

@@ -77,13 +77,13 @@ export default function CalendarModal({
             .map((entry) => {
               const client = $clients.find((p) => p.id === entry.client_id);
               return (
-                <div key={entry.id} className="group flex flex-col hover:bg-hover transition-all cursor-pointer">
-                  <div className="flex items-end justify-between gap-base">
+                <div key={entry.id} className="group repel cursor-pointer" data-nowrap>
+                  <div className="hover:bg-hover transition-all w-full">
                     <span className="truncate w-full flex items-center gap-base">
                       <p className="cursor-default">{client?.name ?? "Projekt"}</p>
                       <input
                         type="number"
-                        className="max-w-[4ch] border-b border-dashed px-xs transition-all hover:bg-hover focus:bg-input-focus"
+                        className="max-w-[4ch] border-b border-dashed px-xs transition-all focus:bg-input-focus"
                         value={editingHours[entry.id] ?? entry.hours.toString()}
                         min="0.5"
                         step="0.5"
@@ -99,12 +99,10 @@ export default function CalendarModal({
                         onChange={(e) => updateEntryField(entry.id, "description", e.target.value)}
                       />
                     </span>
-                    <button
-                      onClick={() => handleDelete(entry.id)}
-                      className="pb-0.5 hover:text-danger transition-colors">
-                      <Delete />
-                    </button>
                   </div>
+                  <button onClick={() => handleDelete(entry.id)} className="pb-0.5 hover:text-danger transition-colors">
+                    <Delete />
+                  </button>
                 </div>
               );
             })
