@@ -100,7 +100,7 @@ export default function CalendarModal({
                       />
                     </span>
                   </div>
-                  <button onClick={() => handleDelete(entry.id)} className="pb-0.5 hover:text-danger transition-colors">
+                  <button onClick={() => handleDelete(entry.id)} className="hover:text-danger transition-colors">
                     <Delete />
                   </button>
                 </div>
