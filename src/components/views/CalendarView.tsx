@@ -15,6 +15,7 @@ import {
   getPrevYear,
   getVisibleCalendarDays,
   getWeekNumber,
+  isCurrentMonth,
 } from "@lib/utils/calendarUtils";
 import { useStore } from "@nanostores/react";
 import type { Session } from "@supabase/supabase-js";
@@ -137,13 +138,17 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
           const entriesForDate = groupAndSumEntriesByClient($monthEntries.filter((entry) => entry.date === dateStr));
           const buttonTextClass = getDayClass(date, currentMonth);
           const { name: holidayTitle } = getHolidayInfo(date);
-
+          
           return (
             <div
               key={dateStr}
               onClick={() => handleDateClick(date)}
-              className="calendar-card / border p-xs cursor-pointer transition-all hover:bg-hover hover:shadow-sm">
-              <p className={`w-full text-left pb-xs text-xxs leading-none ${buttonTextClass}`} title={holidayTitle ?? ""}>
+              className={`calendar-card / border p-xs cursor-pointer transition-all hover:bg-hover hover:shadow-sm ${
+                isCurrentMonth(date, currentYear, currentMonth) ? "" : "opacity-30"
+              }`}>
+              <p
+                className={`w-full text-left pb-xs text-xxs leading-none ${buttonTextClass}`}
+                title={holidayTitle ?? ""}>
                 {date.getDate()}
               </p>
               {entriesForDate.length > 0 && (
