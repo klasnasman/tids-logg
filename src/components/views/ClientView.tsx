@@ -62,7 +62,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
                     onChange={(e) => handleNameInputChange(client.id, e.target.value)}
                     onBlur={() => handleSubmitNameUpdate(client.id)}
                     onKeyDown={(e) => handleNameKeyDown(e, client.id)}
-                    className="w-full border-b border-dashed px-xs truncate transition hover:bg-hover focus:bg-input-focus"
+                    className="w-full border-b border-dashed truncate transition hover:bg-hover focus:bg-input-focus"
                   />
                 </div>
               <button
