@@ -44,7 +44,7 @@ export default function ClientModal({
                 value={newClientName}
                 onChange={(e) => setNewClientName(e.target.value)}
                 required
-                className="w-full px-3 py-base border cursor-text focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-xs border cursor-text focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="Kundnamn"
                 autoFocus
               />
@@ -60,7 +60,7 @@ export default function ClientModal({
               id="client-description"
               value={newClientDescription}
               onChange={(e) => setNewClientDescription(e.target.value)}
-              className="w-full px-3 py-base border cursor-text focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-xs border cursor-text focus:outline-none focus:ring-1 focus:ring-blue-500"
               placeholder="Beskriv kunden"
               rows={3}
             />
