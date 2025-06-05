@@ -132,14 +132,14 @@ export default function CalendarModal({
           min="0.5"
           step="0.5"
           required
-          className="w-full px-base py-base border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-xs border focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <textarea
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
           placeholder="Vad arbetade du med?"
           rows={3}
-          className="w-full px-base py-base border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-xs border focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div className="repel mt-lg">
           <button
