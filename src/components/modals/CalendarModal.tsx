@@ -116,7 +116,7 @@ export default function CalendarModal({
           value={form.client}
           onChange={(e) => setForm({ ...form, client: e.target.value })}
           required
-          className="w-full px-sm border focus:outline-none">
+          className="w-full px-xs border focus:outline-none">
           <option value="">Välj projekt</option>
           {$clients.map((client) => (
             <option key={client.id} value={client.id}>
@@ -132,14 +132,14 @@ export default function CalendarModal({
           min="0.5"
           step="0.5"
           required
-          className="w-full p-xs border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-xs border focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
         <textarea
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
           placeholder="Vad arbetade du med?"
           rows={3}
-          className="w-full p-xs border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-xs border focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
         <div className="repel mt-lg">
           <button
