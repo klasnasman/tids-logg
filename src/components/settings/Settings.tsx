@@ -55,28 +55,24 @@ export function Settings() {
 
         <div className="flex flex-col">
           {!$profile?.full_name ? (
-            <div className="w-full mt-xs">
-              <ProfileForm userId={$user.id} />
-            </div>
+            <ProfileForm userId={$user.id} />
           ) : editingName ? (
-            <div className="w-full mt-xs">
-              <ProfileForm userId={$user.id} />
-            </div>
+            <ProfileForm userId={$user.id} />
           ) : (
-            <div className="flex items-end justify-between hover:bg-hover transition-colors">
+            <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
               <span>Namn</span>
               <span className="dot-leaders flex-1 leading-none" />
               <p className="cursor-default">{$profile.full_name}</p>
             </div>
           )}
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors">
+          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
             <span>E-post</span>
             <span className="dot-leaders flex-1 leading-none" />
             <p className="cursor-default">{$user?.email}</p>
           </div>
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors">
+          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
             <span>Tema</span>
             <span className="dot-leaders flex-1 leading-none" />
             <div className="flex gap-3">
@@ -95,7 +91,7 @@ export function Settings() {
             </div>
           </div>
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors">
+          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
             <span>Visa helger</span>
             <span className="dot-leaders flex-1 leading-none" />
             <div className="flex gap-3">

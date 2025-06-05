@@ -13,8 +13,8 @@
 
 .dashboard-calendar {
   overscroll-behavior: contain;
-  height: 100%;
   width: var(--calendar-width);
+  height: 100%;
 }
 
 @media (max-width: 767px) {

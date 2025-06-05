@@ -36,8 +36,8 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
               { title: "Idag", hours: timeStats.today.toFixed(1) },
               { title: "Månad", hours: timeStats.month.toFixed(1) },
               { title: "År", hours: timeStats.year.toFixed(1) },
-            ].map(({ title, hours }) => (
-              <li key={title} className="flex items-end justify-between hover:bg-hover transition-colors">
+            ].map(({ title, hours }) => ( 
+              <li key={title} className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
                 <span>{title}</span>
                 <span className="dot-leaders flex-1 leading-none" />
                 <time className="tabular-nums">{hours}h</time>
@@ -52,7 +52,7 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
           ) : (
             <ul className="flex flex-col">
               {timeStats.clientDistribution.map(({ id, name, hours }) => (
-                <li key={id} className="flex items-end justify-between hover:bg-hover transition-colors">
+                <li key={id} className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
                   <span>{name}</span>
                   <span className="dot-leaders flex-1 leading-none" />
                   <time className="tabular-nums">{hours.toFixed(1)}h</time>
