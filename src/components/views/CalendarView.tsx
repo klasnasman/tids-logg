@@ -113,11 +113,15 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
           $showWeekends ? "grid-cols-[auto_repeat(7,minmax(0,1fr))] " : "grid-cols-[auto_repeat(5,minmax(0,1fr))]"
         }`}>
         <p aria-hidden="true"></p>
-        {visibleDays.map((day) => (
-          <div key={day} className="text-center">
-            {day}
-          </div>
-        ))}
+        {visibleDays.map((day, i) => {
+          const todayIndex = (new Date().getDay() + 6) % 7;
+
+          return (
+            <div key={day} className={`text-center ${i === todayIndex ? "text-blue-500" : ""}`}>
+              {day}
+            </div>
+          );
+        })}
 
         {calendarWithWeeks.map((item, index) => {
           if (typeof item === "number") {
@@ -138,7 +142,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
           const entriesForDate = groupAndSumEntriesByClient($monthEntries.filter((entry) => entry.date === dateStr));
           const buttonTextClass = getDayClass(date, currentMonth);
           const { name: holidayTitle } = getHolidayInfo(date);
-          
+
           return (
             <div
               key={dateStr}

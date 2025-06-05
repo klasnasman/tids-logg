@@ -198,7 +198,6 @@ export function getCalendarWithWeeks(days: Date[], showWeekends: boolean): (Date
 }
 
 export function getDayClass(date: Date, currentMonth: number): string {
-  if (isToday(date)) return "text-blue-500";
 
   const { isHoliday: holiday } = isHoliday(date);
   if (holiday) return "text-danger";
