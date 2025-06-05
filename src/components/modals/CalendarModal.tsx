@@ -116,7 +116,7 @@ export default function CalendarModal({
           value={form.client}
           onChange={(e) => setForm({ ...form, client: e.target.value })}
           required
-          className="w-full px-xs border focus:outline-none">
+          className="w-full px-sm border focus:outline-none">
           <option value="">Välj projekt</option>
           {$clients.map((client) => (
             <option key={client.id} value={client.id}>
