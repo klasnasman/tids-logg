@@ -1,5 +1,5 @@
 @layer components {
-  :where(input, select) {
+  input, select {
     font-size: var(--text-input, 1rem);
     height: var(--spacing-input-height, 25px);
     line-height: var(--leading-input, 1.1);
