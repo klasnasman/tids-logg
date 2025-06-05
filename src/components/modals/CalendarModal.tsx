@@ -83,7 +83,7 @@ export default function CalendarModal({
                       <p className="cursor-default">{client?.name ?? "Projekt"}</p>
                       <input
                         type="number"
-                        className="max-w-[4ch] border-b border-dashed px-xs transition-all focus:bg-input-focus"
+                        className="max-w-[4ch] border-b border-dashed transition-all focus:bg-input-focus"
                         value={editingHours[entry.id] ?? entry.hours.toString()}
                         min="0.5"
                         step="0.5"
@@ -92,7 +92,7 @@ export default function CalendarModal({
                       />
                       <input
                         type="text"
-                        className="text-muted border-b w-full min-w-0 border-dashed px-xs truncate transition-all hover:bg-hover focus:bg-input-focus"
+                        className="text-muted border-b w-full min-w-0 border-dashed truncate transition-all hover:bg-hover focus:bg-input-focus"
                         value={editingDescriptions[entry.id] ?? entry.description ?? ""}
                         placeholder=""
                         onFocus={() => setEditingEntryId(entry.id)}
