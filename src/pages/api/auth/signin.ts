@@ -35,7 +35,15 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      return new Response(error.message, { status: 500 });
+      return new Response(
+        `<script>alert("Wrong crendentials. Please try again."); window.location.href = "/";</script>`,
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "text/html",
+          },
+        }
+      );
     }
 
     const { access_token, refresh_token } = data.session;

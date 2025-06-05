@@ -14,7 +14,7 @@ export function Settings() {
   const $profile = useStore(profileStore);
   const isOpen = useStore(isSettingsModalOpen);
 
-  const [editingName, setEditingName] = useState(false);
+  const [editingName, setEditingName] = useState(false); // Not implemented
   const [theme, setTheme] = useState<"light" | "dark">(() =>
     document.documentElement.getAttribute("data-user-theme") === "dark" ? "dark" : "light"
   );
