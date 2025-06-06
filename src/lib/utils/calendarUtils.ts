@@ -125,18 +125,8 @@ export function getPrevYear(year: number, month: number): { year: number; month:
   };
 }
 
-export function isToday(date: Date): boolean {
-  const today = new Date();
-  return date.toLocaleDateString() === today.toLocaleDateString();
-}
-
 export function isCurrentMonth(date: Date, currentYear: number, currentMonth: number): boolean {
   return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-}
-
-export function isWeekend(date: Date): boolean {
-  const day = getDay(date);
-  return day === 0 || day === 6;
 }
 
 export function isHoliday(date: Date): { isHoliday: boolean; name?: string } {
@@ -195,6 +185,11 @@ export function getCalendarWithWeeks(days: Date[], showWeekends: boolean): (Date
   }
 
   return result;
+}
+
+export function isWeekend(date: Date): boolean {
+  const day = getDay(date);
+  return day === 0 || day === 6;
 }
 
 export function getDayClass(date: Date, currentMonth: number): string {
