@@ -117,7 +117,7 @@ export default function Calendar({ initialSession, selectedMonth, onMonthChange 
           const todayIndex = (new Date().getDay() + 6) % 7;
 
           return (
-            <div key={day} className={`text-center ${i === todayIndex ? "text-blue-500" : ""}`}>
+            <div key={day} className={`text-center ${i === todayIndex ? "text-blue-500!" : ""}`}>
               {day}
             </div>
           );

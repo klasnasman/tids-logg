@@ -137,7 +137,6 @@
     --color-global-text           : var(--color-gray-50);
     --color-global-background     : var(--color-gray-950);
     --color-hover                 : var(--color-cyan-950);
-    --color-muted                 : var(--color-gray-400);
     --color-border                : var(--color-gray-600);
     --color-input-focus           : var(--color-cyan-900);
     --color-scrollbar-track       : var(--color-gray-600);
