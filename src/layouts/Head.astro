@@ -12,7 +12,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta property="og:title" content={title} />
@@ -44,12 +44,38 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
           {
             style: "normal",
             weight: "100 900",
-            path: "/fonts/BrownMono-Regular.woff2",
+            path: "/fonts/BrownMono.woff2",
           },
         ],
         preload: false,
         display: "swap",
         fallback: "monospace",
+      },
+      {
+        name: "Brown",
+        src: [
+          {
+            style: "normal",
+            weight: "100 900",
+            path: "/fonts/Brown.woff2",
+          },
+        ],
+        preload: false,
+        display: "swap",
+        fallback: "sans-serif",
+      },
+      {
+        name: "Ivory",
+        src: [
+          {
+            style: "normal",
+            weight: "100 900",
+            path: "/fonts/Ivory.woff2",
+          },
+        ],
+        preload: false,
+        display: "swap",
+        fallback: "serif",
       },
     ]}
   />

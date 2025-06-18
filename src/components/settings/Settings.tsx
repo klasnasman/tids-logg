@@ -3,12 +3,18 @@ import { ProfileForm } from "@components/forms/ProfileForm";
 import { ModalWrapper } from "@components/modals/ModalWrapper";
 import { authStore } from "@lib/stores/auth/authStore";
 import { profileStore } from "@lib/stores/auth/profileStore";
-import { closeSettingsModal, isSettingsModalOpen, openSettingsModal, showWeekends, toggleWeekends } from "@lib/stores/UIStore";
+import {
+  closeSettingsModal,
+  isSettingsModalOpen,
+  openSettingsModal,
+  showWeekends,
+  toggleWeekends,
+} from "@lib/stores/UIStore";
 import { useStore } from "@nanostores/react";
 import React, { useEffect, useState } from "react";
+import { SettingsItem } from "./SettingsItem";
 
 export function Settings() {
-  
   const $show = useStore(showWeekends);
   const $user = useStore(authStore).user;
   const $profile = useStore(profileStore);
@@ -18,7 +24,14 @@ export function Settings() {
   const [theme, setTheme] = useState<"light" | "dark">(() =>
     document.documentElement.getAttribute("data-user-theme") === "dark" ? "dark" : "light"
   );
-  
+  const [font, setFont] = useState(() => document.body.getAttribute("data-user-font") || "mono");
+
+  const setFontAndPersist = (newFont: "mono" | "serif" | "sans-serif") => {
+    setFont(newFont);
+    document.body.setAttribute("data-user-font", newFont);
+    localStorage.setItem("font", newFont);
+  };
+
   useEffect(() => {
     const storedWeekends = localStorage.getItem("showWeekends");
     if (storedWeekends !== null) {
@@ -59,56 +72,65 @@ export function Settings() {
           ) : editingName ? (
             <ProfileForm userId={$user.id} />
           ) : (
-            <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
-              <span>Namn</span>
-              <span className="dot-leaders flex-1 leading-none" />
+            <SettingsItem label="Namn">
               <p className="cursor-default">{$profile.full_name}</p>
-            </div>
+            </SettingsItem>
           )}
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
-            <span>E-post</span>
-            <span className="dot-leaders flex-1 leading-none" />
+          <SettingsItem label="Epost">
             <p className="cursor-default">{$user?.email}</p>
-          </div>
+          </SettingsItem>
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
-            <span>Tema</span>
-            <span className="dot-leaders flex-1 leading-none" />
-            <div className="flex gap-3">
-              <button
-                onClick={() => theme === "dark" && setThemeAndPersist("light")}
-                className={`${theme === "light" ? "decoration underline text-global-text" : "hover:underline"}`}
-                aria-pressed={theme === "light"}>
-                Ljust
-              </button>
-              <button
-                onClick={() => theme === "light" && setThemeAndPersist("dark")}
-                className={`${theme === "dark" ? "decoration underline text-global-text" : "hover:underline"}`}
-                aria-pressed={theme === "dark"}>
-                Mörkt
-              </button>
-            </div>
-          </div>
+          <SettingsItem label="Tema">
+            <button
+              onClick={() => theme === "dark" && setThemeAndPersist("light")}
+              className={`${theme === "light" ? "decoration underline text-global-text" : "hover:underline"}`}
+              aria-pressed={theme === "light"}>
+              Ljust
+            </button>
+            <button
+              onClick={() => theme === "light" && setThemeAndPersist("dark")}
+              className={`${theme === "dark" ? "decoration underline text-global-text" : "hover:underline"}`}
+              aria-pressed={theme === "dark"}>
+              Mörkt
+            </button>
+          </SettingsItem>
 
-          <div className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
-            <span>Visa helger</span>
-            <span className="dot-leaders flex-1 leading-none" />
-            <div className="flex gap-3">
-              <button
-                onClick={() => $show && handleToggleWeekends()}
-                className={`${!$show ? "decoration underline text-global-text" : "hover:underline"}`}
-                aria-pressed={!$show}>
-                Av
-              </button>
-              <button
-                onClick={() => !$show && handleToggleWeekends()}
-                className={`${$show ? "decoration underline text-global-text" : "hover:underline"}`}
-                aria-pressed={$show}>
-                På
-              </button>
-            </div>
-          </div>
+          <SettingsItem label="Visa helger">
+            <button
+              onClick={() => $show && handleToggleWeekends()}
+              className={`${!$show ? "decoration underline text-global-text" : "hover:underline"}`}
+              aria-pressed={!$show}>
+              Av
+            </button>
+            <button
+              onClick={() => !$show && handleToggleWeekends()}
+              className={`${$show ? "decoration underline text-global-text" : "hover:underline"}`}
+              aria-pressed={$show}>
+              På
+            </button>
+          </SettingsItem>
+
+          <SettingsItem label="Typsnitt">
+            <button
+              onClick={() => setFontAndPersist("mono")}
+              className={font === "mono" ? "underline text-global-text" : "hover:underline"}
+              aria-pressed={font === "mono"}>
+              Mono
+            </button>
+            <button
+              onClick={() => setFontAndPersist("serif")}
+              className={font === "serif" ? "underline text-global-text" : "hover:underline"}
+              aria-pressed={font === "serif"}>
+              Serif
+            </button>
+            <button
+              onClick={() => setFontAndPersist("sans-serif")}
+              className={font === "sans-serif" ? "underline text-global-text" : "hover:underline"}
+              aria-pressed={font === "sans-serif"}>
+              Sans-Serif
+            </button>
+          </SettingsItem>
         </div>
 
         <div className="repel mt-lg" data-reverse>
