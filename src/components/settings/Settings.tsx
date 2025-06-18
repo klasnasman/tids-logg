@@ -26,7 +26,7 @@ export function Settings() {
   );
   const [font, setFont] = useState(() => document.body.getAttribute("data-user-font") || "mono");
 
-  const setFontAndPersist = (newFont: "mono" | "serif" | "sans-serif") => {
+  const setFontAndPersist = (newFont: "mono" | "serif" | "sans") => {
     setFont(newFont);
     document.body.setAttribute("data-user-font", newFont);
     localStorage.setItem("font", newFont);
@@ -125,10 +125,10 @@ export function Settings() {
               Serif
             </button>
             <button
-              onClick={() => setFontAndPersist("sans-serif")}
-              className={font === "sans-serif" ? "underline text-global-text" : "hover:underline"}
-              aria-pressed={font === "sans-serif"}>
-              Sans-Serif
+              onClick={() => setFontAndPersist("sans")}
+              className={font === "sans" ? "underline text-global-text" : "hover:underline"}
+              aria-pressed={font === "sans"}>
+              Sans
             </button>
           </SettingsItem>
         </div>
