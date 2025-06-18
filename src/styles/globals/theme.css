@@ -80,12 +80,12 @@
   --spacing-h3: 45ch;
   --spacing-h4: 45ch;
 
-  --spacing-base: var(--spacing-sm);
-  --spacing-input: var(--input-height);
-  --spacing-header: var(--header-height);
   --spacing-input-height: 25px;
   --spacing-modal-width: 520px;
   --spacing-modal-width-sm: 300px;
+  --spacing-base: var(--spacing-sm);
+  --spacing-input: var(--spacing-input-height);
+  --spacing-header: var(--header-height);
   --spacing-site-start: var(--header-height);
 
   /* SPACING - GAP (gap-base) */
