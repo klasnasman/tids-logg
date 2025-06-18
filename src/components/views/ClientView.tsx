@@ -39,7 +39,7 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
   const isOpen = useStore(isClientModalOpen);
 
   return (
-    <section className="clients / h-1/2 px-base pt-base border-t border-global-text overflow-y-auto">
+    <section className="clients / grow px-base pt-base border-t border-global-text overflow-y-auto">
       <div id="client-list" className="flex flex-col justify-between h-full">
         <div className="flex flex-col gap-base">
           {$clients.map((client) => (
@@ -65,11 +65,9 @@ const ClientList: React.FC<ClientListProps> = ({ initialSession, selectedMonth }
                     className="w-full border-b border-dashed truncate transition hover:bg-hover focus:bg-input-focus"
                   />
                 </div>
-              <button
-                className="hover:text-danger transition-colors"
-                onClick={() => openConfirmDeleteModal(client)}>
-                <Delete />
-              </button>
+                <button className="hover:text-danger transition-colors" onClick={() => openConfirmDeleteModal(client)}>
+                  <Delete />
+                </button>
               </div>
             </article>
           ))}

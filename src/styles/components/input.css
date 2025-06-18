@@ -37,6 +37,11 @@
     margin: 0;
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+  }
+
   /* Firefox */
   input[type='number'] {
     -moz-appearance: textfield;

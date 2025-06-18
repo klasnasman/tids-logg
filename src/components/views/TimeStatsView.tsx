@@ -27,7 +27,7 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
   };
 
   return (
-    <section className="time-entries / h-1/2 p-base flex flex-col justify-between gap-base overflow-y-auto">
+    <section className="time-entries / grow p-base flex flex-col justify-between gap-base overflow-y-auto">
       <div className="flow">
         <div className="flow-sm">
           <p>Tidsstatistik per:</p>
@@ -36,7 +36,7 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
               { title: "Idag", hours: timeStats.today.toFixed(1) },
               { title: "Månad", hours: timeStats.month.toFixed(1) },
               { title: "År", hours: timeStats.year.toFixed(1) },
-            ].map(({ title, hours }) => ( 
+            ].map(({ title, hours }) => (
               <li key={title} className="flex items-end justify-between hover:bg-hover transition-colors gap-0.5">
                 <span>{title}</span>
                 <span className="dot-leaders flex-1 leading-none" />
@@ -63,13 +63,13 @@ const TimeStats: React.FC<TimeStatsProps> = ({ initialSession, selectedMonth }) 
         </div>
       </div>
       <div className="pt-sm">
-          <button
-            onClick={handleExport}
-            aria-controls="export-stats-modal"
-            className="button w-full"
-            data-variant="white">
-            Exportera statistik
-          </button>
+        <button
+          onClick={handleExport}
+          aria-controls="export-stats-modal"
+          className="button w-full"
+          data-variant="white">
+          Exportera statistik
+        </button>
       </div>
     </section>
   );
