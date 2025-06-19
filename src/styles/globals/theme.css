@@ -4,8 +4,8 @@
   --default-transition-duration: 0.3s;
 
   /* TYPOGRAPHY (font-base / font-bold) */
-  --font-serif: 'Ivory', sans-serif;
-  --font-sans-serif: 'Brown', serif;
+  --font-serif: 'Ivory', serif;
+  --font-sans: 'Apta', sans-serif;
   --font-mono: 'Brown Mono', monospace;
 
   --font-weight-light: 300;
@@ -148,8 +148,8 @@
     font-family: var(--font-serif);
   }
 
-  body[data-user-font="sans-serif"] {
-    font-family: var(--font-sans-serif);
+  body[data-user-font="sans"] {
+    font-family: var(--font-sans);
   }
 
   [data-user-theme='dark'] {
