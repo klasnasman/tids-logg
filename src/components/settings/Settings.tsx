@@ -73,12 +73,12 @@ export function Settings() {
             <ProfileForm userId={$user.id} />
           ) : (
             <SettingsItem label="Namn">
-              <p className="cursor-default">{$profile.full_name}</p>
+              <p>{$profile.full_name}</p>
             </SettingsItem>
           )}
 
-          <SettingsItem label="Epost">
-            <p className="cursor-default">{$user?.email}</p>
+          <SettingsItem label="E-post">
+            <p>{$user?.email}</p>
           </SettingsItem>
 
           <SettingsItem label="Tema">
