@@ -11,7 +11,8 @@ body {
   min-height: 100dvh;
 }
 
-:where(a) {
+:where(a),
+:where(button) {
   text-underline-offset: 0.3ex;
   cursor: pointer;
 }
