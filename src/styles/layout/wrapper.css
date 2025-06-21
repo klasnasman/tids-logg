@@ -1,10 +1,6 @@
 /*
 WRAPPER:
 A common wrapper for the main content.
-
-- Expands fluidly up to the viewport width (100vw).
-- Stops growing beyond 2400px (--container-site).
-- Maintains a side margin of 1rem (total 2rem gap).
 */
 @layer utilities {
   .wrapper {
@@ -14,21 +10,5 @@ A common wrapper for the main content.
     max-width: var(--container-site);
     width: 100%;
     height: 100svh;
-  }
-
-  .wrapper[data-hero-bottom] {
-    padding-block-end: 0rem;
-  }
-
-  .wrapper[data-center] {
-    align-items: center;
-    padding-block-start: 0rem;
-    padding-block-end: 0rem;
-  }
-
-  @media screen and (max-width: 767px) {
-    .wrapper[data-center] {
-      align-items: unset;
-    }
   }
 }
