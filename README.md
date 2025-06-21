@@ -1,4 +1,4 @@
-### Project Name
+### TIDS:LOGG
 
 A small side project to register and visualize the hours I work.  
 Built with [Astro](https://astro.build), [Supabase](https://supabase.com), and TailwindCSS.
@@ -11,8 +11,8 @@ You can register a user and try the site out at:
 #### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone https://github.com/klasnasman/tids-logg/
+cd tids-logg
 ```
 
 #### 2. Install Dependencies
