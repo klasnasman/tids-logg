@@ -13,7 +13,6 @@ export const toggleSidebar = () => {
 };
 
 export const isCalendarModalOpen = atom(false);
-
 export const openCalendarModal = () => isCalendarModalOpen.set(true);
 export const closeCalendarModal = () => isCalendarModalOpen.set(false);
 export const toggleCalendarModal = () => {
@@ -21,7 +20,6 @@ export const toggleCalendarModal = () => {
 };
 
 export const isClientModalOpen = atom(false);
-
 export const openClientModal = () => isClientModalOpen.set(true);
 export const closeClientModal = () => isClientModalOpen.set(false);
 export const toggleClientModal = () => {
@@ -29,7 +27,6 @@ export const toggleClientModal = () => {
 };
 
 export const isSettingsModalOpen = atom(false);
-
 export const openSettingsModal = () => isSettingsModalOpen.set(true);
 export const closeSettingsModal = () => isSettingsModalOpen.set(false);
 export const toggleSettingsModal = () => {
@@ -37,7 +34,6 @@ export const toggleSettingsModal = () => {
 };
 
 export const isConfirmModalOpen = atom(false);
-
 export const openConfirmModal = () => isConfirmModalOpen.set(true);
 export const closeConfirmModal = () => isConfirmModalOpen.set(false);
 export const toggleConfirmModal = () => {
